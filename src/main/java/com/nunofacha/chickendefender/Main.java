@@ -1,17 +1,15 @@
 package com.nunofacha.chickendefender;
 
-import com.nunofacha.chickendefender.arenas.Arena;
+import com.nunofacha.chickendefender.arenas.ArenaManager;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public class Main extends JavaPlugin {
     public static Plugin plugin;
     public static Logger logger;
-    public static ArrayList<Arena> arenas = new ArrayList<>();
-
+    public static ArenaManager arenaManager;
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -21,12 +19,7 @@ public class Main extends JavaPlugin {
         this.getConfig().options().copyDefaults(true);
         saveDefaultConfig();
         logger.info("Config Version: " + getConfig().getInt("config-version"));
-        //Initialize Arenas
-        int totalArenas = getArenaCount();
-        logger.info("Arena count: " + totalArenas);
-        for (int i = 0; i < totalArenas; i++) {
-            arenas.add(new Arena(i));
-        }
+        arenaManager = new ArenaManager();
 
     }
 
@@ -35,7 +28,5 @@ public class Main extends JavaPlugin {
         // Plugin shutdown logic
     }
 
-    private int getArenaCount() {
-        return this.getConfig().getConfigurationSection("arenas").getKeys(false).size();
-    }
+
 }

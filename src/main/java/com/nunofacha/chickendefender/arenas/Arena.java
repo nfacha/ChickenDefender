@@ -5,6 +5,9 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
+import java.util.UUID;
+
 @SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal", "ConstantConditions"})
 public class Arena {
     private final int arenaId;
@@ -21,6 +24,7 @@ public class Arena {
     private Location corner2;
     private Vector minVector;
     private Vector maxVector;
+    private ArrayList<UUID> players;
 
     public Arena(int arenaId) {
         this.arenaId = arenaId;
