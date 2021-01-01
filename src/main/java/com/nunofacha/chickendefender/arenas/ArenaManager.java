@@ -1,11 +1,12 @@
 package com.nunofacha.chickendefender.arenas;
 
 import com.nunofacha.chickendefender.Main;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
 public class ArenaManager {
-    public static ArrayList<Arena> arenas = new ArrayList<>();
+    private static ArrayList<Arena> arenas = new ArrayList<>();
 
     public ArenaManager() {
         //Initialize Arenas
@@ -18,5 +19,36 @@ public class ArenaManager {
 
     private int getArenaCount() {
         return Main.plugin.getConfig().getConfigurationSection("arenas").getKeys(false).size();
+    }
+
+    public static ArrayList<Arena> getArenas() {
+        return arenas;
+    }
+
+    public boolean isPlaying(Player p) {
+        for (Arena arena : arenas) {
+            if (arena.getPlayers().contains(p.getUniqueId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Arena getArena(Player p) {
+        for (Arena arena : arenas) {
+            if (arena.getPlayers().contains(p.getUniqueId())) {
+                return arena;
+            }
+        }
+        return null;
+    }
+
+    public Arena getArena(int id) {
+        for (Arena arena : arenas) {
+            if (arena.getArenaId() == id) {
+                return arena;
+            }
+        }
+        return null;
     }
 }

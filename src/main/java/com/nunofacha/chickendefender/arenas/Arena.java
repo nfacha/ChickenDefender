@@ -74,4 +74,16 @@ public class Arena {
     public boolean containsLocation(Location location) {
         return location.toVector().isInAABB(minVector, maxVector);
     }
+
+    public int getArenaId() {
+        return arenaId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ArrayList<UUID> getPlayers() {
+        return players;
+    }
 }
