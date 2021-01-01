@@ -1,6 +1,7 @@
 package com.nunofacha.chickendefender.arenas;
 
 import com.nunofacha.chickendefender.Main;
+import com.nunofacha.chickendefender.arenas.game.GameState;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
