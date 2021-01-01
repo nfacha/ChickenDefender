@@ -1,13 +1,14 @@
 package com.nunofacha.chickendefender.arenas;
 
 import com.nunofacha.chickendefender.Main;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
 public class ArenaManager {
     private static ArrayList<Arena> arenas = new ArrayList<>();
-
+    private Location lobbyLocation;
     public ArenaManager() {
         //Initialize Arenas
         int totalArenas = getArenaCount();
@@ -15,6 +16,13 @@ public class ArenaManager {
         for (int i = 0; i < totalArenas; i++) {
             arenas.add(new Arena(i));
         }
+        //noinspection ConstantConditions
+        this.lobbyLocation = new Location(
+                Main.plugin.getServer().getWorld(Main.plugin.getConfig().getString("lobby.world")),
+                Main.plugin.getConfig().getInt("lobby.x"),
+                Main.plugin.getConfig().getInt("lobby.y"),
+                Main.plugin.getConfig().getInt("lobby.z")
+        );
     }
 
     private int getArenaCount() {
@@ -50,5 +58,9 @@ public class ArenaManager {
             }
         }
         return null;
+    }
+
+    public Location getLobbyLocation() {
+        return lobbyLocation;
     }
 }

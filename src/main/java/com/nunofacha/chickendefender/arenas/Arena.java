@@ -3,6 +3,7 @@ package com.nunofacha.chickendefender.arenas;
 import com.nunofacha.chickendefender.Main;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
@@ -85,5 +86,17 @@ public class Arena {
 
     public ArrayList<UUID> getPlayers() {
         return players;
+    }
+
+    public void addPlayer(Player p) {
+        players.add(p.getUniqueId());
+        p.teleport(Main.arenaManager.getLobbyLocation());
+        p.sendMessage("You have been teleported to arena lobby");
+    }
+
+    public void removePlayer(Player p) {
+        players.remove(p.getUniqueId());
+        p.teleport(Main.arenaManager.getLobbyLocation());
+        p.sendMessage("You left the arena");
     }
 }
