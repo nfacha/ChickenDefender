@@ -15,7 +15,8 @@ public class Main extends JavaPlugin {
         plugin = this;
         logger = getLogger();
         logger.info("Plugin is stating");
-
+        this.getConfig().options().copyDefaults();
+        saveDefaultConfig();
 
     }
 
