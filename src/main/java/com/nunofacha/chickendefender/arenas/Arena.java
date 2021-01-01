@@ -26,6 +26,7 @@ public class Arena {
     private Vector minVector;
     private Vector maxVector;
     private ArrayList<UUID> players;
+    private GameState state;
 
     public Arena(int arenaId) {
         this.arenaId = arenaId;
@@ -69,6 +70,7 @@ public class Arena {
 
         minVector = new Vector(xPos1, yPos1, zPos1);
         maxVector = new Vector(xPos2, yPos2, zPos2);
+        state = GameState.RECRUITING;
         Main.logger.info("Arena " + this.name + " was loaded with ID " + arenaId);
     }
 
