@@ -1,0 +1,27 @@
+config-version: 1 #DONT CHANGE THIS!
+lobby:
+  x: 0
+  y: 0
+  z: 0
+  world: world
+arenas:
+  0:
+    name: chicken
+    team-selection: false
+    players:
+      min: 2
+      max: 10
+    locations:
+      world: world
+      attacking:
+        x: 0
+        y: 0
+        z: 0
+      defending:
+        x: 0
+        y: 0
+        z: 0
+      chicken:
+        x: 10
+        y: 10
+        z: 10
