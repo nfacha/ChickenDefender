@@ -30,7 +30,7 @@ public class Arena {
     private Location corner2;
     private Vector minVector;
     private Vector maxVector;
-    private ArrayList<UUID> players;
+    private ArrayList<UUID> players = new ArrayList<>();
     private GameState state;
     private Countdown countdown;
     private Chicken chicken;
