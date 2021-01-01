@@ -118,7 +118,7 @@ public class Arena {
     }
 
     public void start() {
-
+        this.setState(GameState.LIVE);
     }
 
     public void sendMessageToAll(String msg) {
