@@ -47,21 +47,21 @@ public class Arena {
         this.maxPlayers = Main.plugin.getConfig().getInt(this.configPath + ".players.max");
         this.world = Main.plugin.getServer().getWorld(Main.plugin.getConfig().getString(this.configPath + ".locations.world"));
         this.lobbySpawn = new Location(this.world,
-                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawn.lobby.x"),
-                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawn.lobby.y"),
-                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawn.lobby.z"));
+                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawns.lobby.x"),
+                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawns.lobby.y"),
+                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawns.lobby.z"));
         this.attackingSpawn = new Location(this.world,
-                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawn.attacking.x"),
-                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawn.attacking.y"),
-                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawn.attacking.z"));
+                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawns.attacking.x"),
+                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawns.attacking.y"),
+                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawns.attacking.z"));
         this.defendingSpawn = new Location(this.world,
-                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawn.defending.x"),
-                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawn.defending.y"),
-                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawn.defending.z"));
+                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawns.defending.x"),
+                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawns.defending.y"),
+                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawns.defending.z"));
         this.chickenSpawn = new Location(this.world,
-                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawn.chicken.x"),
-                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawn.chicken.y"),
-                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawn.chicken.z"));
+                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawns.chicken.x"),
+                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawns.chicken.y"),
+                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawns.chicken.z"));
         this.corner1 = new Location(this.world,
                 Main.plugin.getConfig().getInt(this.configPath + ".locations.corner1.x"),
                 Main.plugin.getConfig().getInt(this.configPath + ".locations.corner1.y"),
@@ -86,6 +86,7 @@ public class Arena {
         state = GameState.RECRUITING;
         countdown = new Countdown(this, 30);
         Main.logger.info("Arena " + this.name + " was loaded with ID " + arenaId);
+        Main.logger.info("Arena " + this.name + " spawn: " + lobbySpawn.toString());
     }
 
     public boolean containsLocation(Location location) {
