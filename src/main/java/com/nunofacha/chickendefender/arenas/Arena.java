@@ -3,8 +3,10 @@ package com.nunofacha.chickendefender.arenas;
 import com.nunofacha.chickendefender.Main;
 import com.nunofacha.chickendefender.arenas.game.Countdown;
 import com.nunofacha.chickendefender.arenas.game.GameState;
+import com.nunofacha.chickendefender.arenas.game.Team;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -20,6 +22,7 @@ public class Arena {
     private int minPlayers;
     private int maxPlayers;
     private World world;
+    private Location lobbySpawn;
     private Location attackingSpawn;
     private Location defendingSpawn;
     private Location chickenSpawn;
@@ -30,6 +33,9 @@ public class Arena {
     private ArrayList<UUID> players;
     private GameState state;
     private Countdown countdown;
+    private Chicken chicken;
+    private ArrayList<UUID> attackingTeam = new ArrayList<>();
+    private ArrayList<UUID> defendingTeam = new ArrayList<>();
 
     public Arena(int arenaId) {
         this.arenaId = arenaId;
@@ -40,6 +46,10 @@ public class Arena {
         this.minPlayers = Main.plugin.getConfig().getInt(this.configPath + ".players.min");
         this.maxPlayers = Main.plugin.getConfig().getInt(this.configPath + ".players.max");
         this.world = Main.plugin.getServer().getWorld(Main.plugin.getConfig().getString(this.configPath + ".locations.world"));
+        this.lobbySpawn = new Location(this.world,
+                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawn.lobby.x"),
+                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawn.lobby.y"),
+                Main.plugin.getConfig().getInt(this.configPath + ".locations.spawn.lobby.z"));
         this.attackingSpawn = new Location(this.world,
                 Main.plugin.getConfig().getInt(this.configPath + ".locations.spawn.attacking.x"),
                 Main.plugin.getConfig().getInt(this.configPath + ".locations.spawn.attacking.y"),
@@ -96,7 +106,7 @@ public class Arena {
 
     public void addPlayer(Player p) {
         players.add(p.getUniqueId());
-        p.teleport(Main.arenaManager.getLobbyLocation());
+        p.teleport(lobbySpawn);
         p.sendMessage("You have been teleported to arena lobby");
         if (players.size() >= getMinPlayers()) {
             countdown.begin();
@@ -118,6 +128,24 @@ public class Arena {
     }
 
     public void start() {
+        for (UUID uuid : players) {
+            Player p = Main.plugin.getServer().getPlayer(uuid);
+            // Add the player to a team if they are not yet in one
+            if ((!defendingTeam.contains(uuid) && !attackingTeam.contains(uuid))) {
+                if (defendingTeam.size() <= attackingTeam.size()) {
+                    setPlayerTeam(p, Team.DEFENDING);
+                } else {
+                    setPlayerTeam(p, Team.ATTACKING);
+                }
+            }
+
+            //Teleport player to start location
+            if (defendingTeam.contains(uuid)) {
+                p.teleport(defendingSpawn);
+            } else {
+                p.teleport(attackingSpawn);
+            }
+        }
         this.setState(GameState.LIVE);
     }
 
@@ -128,111 +156,18 @@ public class Arena {
         }
     }
 
-    public String getConfigPath() {
-        return configPath;
+    public void setPlayerTeam(Player p, Team team) {
+        if (team.equals(Team.ATTACKING)) {
+            attackingTeam.add(p.getUniqueId());
+            p.sendMessage("You have joined the attacking team");
+        } else {
+            defendingTeam.add(p.getUniqueId());
+            p.sendMessage("You have joined the defending team");
+        }
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean isTeamSelection() {
-        return teamSelection;
-    }
-
-    public void setTeamSelection(boolean teamSelection) {
-        this.teamSelection = teamSelection;
-    }
 
     public int getMinPlayers() {
         return minPlayers;
-    }
-
-    public void setMinPlayers(int minPlayers) {
-        this.minPlayers = minPlayers;
-    }
-
-    public int getMaxPlayers() {
-        return maxPlayers;
-    }
-
-    public void setMaxPlayers(int maxPlayers) {
-        this.maxPlayers = maxPlayers;
-    }
-
-    public World getWorld() {
-        return world;
-    }
-
-    public void setWorld(World world) {
-        this.world = world;
-    }
-
-    public Location getAttackingSpawn() {
-        return attackingSpawn;
-    }
-
-    public void setAttackingSpawn(Location attackingSpawn) {
-        this.attackingSpawn = attackingSpawn;
-    }
-
-    public Location getDefendingSpawn() {
-        return defendingSpawn;
-    }
-
-    public void setDefendingSpawn(Location defendingSpawn) {
-        this.defendingSpawn = defendingSpawn;
-    }
-
-    public Location getChickenSpawn() {
-        return chickenSpawn;
-    }
-
-    public void setChickenSpawn(Location chickenSpawn) {
-        this.chickenSpawn = chickenSpawn;
-    }
-
-    public Location getCorner1() {
-        return corner1;
-    }
-
-    public void setCorner1(Location corner1) {
-        this.corner1 = corner1;
-    }
-
-    public Location getCorner2() {
-        return corner2;
-    }
-
-    public void setCorner2(Location corner2) {
-        this.corner2 = corner2;
-    }
-
-    public Vector getMinVector() {
-        return minVector;
-    }
-
-    public void setMinVector(Vector minVector) {
-        this.minVector = minVector;
-    }
-
-    public Vector getMaxVector() {
-        return maxVector;
-    }
-
-    public void setMaxVector(Vector maxVector) {
-        this.maxVector = maxVector;
-    }
-
-    public void setPlayers(ArrayList<UUID> players) {
-        this.players = players;
-    }
-
-    public Countdown getCountdown() {
-        return countdown;
-    }
-
-    public void setCountdown(Countdown countdown) {
-        this.countdown = countdown;
     }
 }
