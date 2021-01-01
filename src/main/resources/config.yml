@@ -13,15 +13,24 @@ arenas:
       max: 10
     locations:
       world: world
-      attacking:
+      spawns:
+        attacking:
+          x: 0
+          y: 0
+          z: 0
+        defending:
+          x: 0
+          y: 0
+          z: 0
+        chicken:
+          x: 10
+          y: 10
+          z: 10
+      corner1:
         x: 0
         y: 0
         z: 0
-      defending:
+      corner2:
         x: 0
         y: 0
         z: 0
-      chicken:
-        x: 10
-        y: 10
-        z: 10
