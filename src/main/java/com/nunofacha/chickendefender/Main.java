@@ -1,6 +1,7 @@
 package com.nunofacha.chickendefender;
 
 import com.nunofacha.chickendefender.arenas.ArenaManager;
+import com.nunofacha.chickendefender.listeners.GlobalListener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -20,6 +21,7 @@ public class Main extends JavaPlugin {
         saveDefaultConfig();
         logger.info("Config Version: " + getConfig().getInt("config-version"));
         arenaManager = new ArenaManager();
+        getServer().getPluginManager().registerEvents(new GlobalListener(), this);
 
     }
 
