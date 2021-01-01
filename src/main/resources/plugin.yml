@@ -1,0 +1,8 @@
+name: ChickenDefender
+version: ${project.version}
+main: com.nunofacha.chickendefender.Main
+api-version: 1.16
+prefix: CHICKEN-DEFENDER
+authors: [ Facha ]
+description: Chicken Defender Minigame
+website: nunofacha.com
