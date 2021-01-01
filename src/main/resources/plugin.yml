@@ -6,3 +6,6 @@ prefix: CHICKEN-DEFENDER
 authors: [ Facha ]
 description: Chicken Defender Minigame
 website: nunofacha.com
+commands:
+  chickenjoin:
+    description: Joins an arena
