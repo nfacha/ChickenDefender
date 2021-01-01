@@ -86,7 +86,6 @@ public class Arena {
         state = GameState.RECRUITING;
         countdown = new Countdown(this, 30);
         Main.logger.info("Arena " + this.name + " was loaded with ID " + arenaId);
-        Main.logger.info("Arena " + this.name + " spawn: " + lobbySpawn.toString());
     }
 
     public boolean containsLocation(Location location) {
