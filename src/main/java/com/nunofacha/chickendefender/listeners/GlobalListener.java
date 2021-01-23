@@ -61,7 +61,7 @@ public class GlobalListener implements Listener {
                     }
                     if(arena.deathCount.containsKey(p.getUniqueId())){
                         int currentDeaths = arena.deathCount.get(p.getUniqueId());
-                        if(currentDeaths >= 3){
+                        if(currentDeaths >= arena.getPlayerLifes()){
                             arena.sendMessageToAll(ChatColor.RED+(net.md_5.bungee.api.ChatColor.BOLD+p.getName()+" has been eliminated"));
                             arena.removePlayer(p);
                             return;

@@ -40,6 +40,7 @@ public class Arena {
     private Countdown countdown;
     private int countdownDuration;
     private int chickenHealth;
+    private int playerLifes;
     private Chicken chicken;
     private ArrayList<UUID> attackingTeam = new ArrayList<>();
     private ArrayList<UUID> defendingTeam = new ArrayList<>();
@@ -55,6 +56,7 @@ public class Arena {
         this.maxPlayers = Main.plugin.getConfig().getInt(this.configPath + ".players.max");
         this.countdownDuration = Main.plugin.getConfig().getInt(this.configPath + ".countdown");
         this.chickenHealth = Main.plugin.getConfig().getInt(this.configPath + ".chicken-health");
+        this.playerLifes = Main.plugin.getConfig().getInt(this.configPath + ".player-lifes");
         this.world = Main.plugin.getServer().getWorld(Main.plugin.getConfig().getString(this.configPath + ".locations.world"));
         this.lobbySpawn = new Location(this.world,
                 Main.plugin.getConfig().getInt(this.configPath + ".locations.spawns.lobby.x"),
@@ -257,5 +259,9 @@ public class Arena {
 
     public Location getDefendingSpawn() {
         return defendingSpawn;
+    }
+
+    public int getPlayerLifes() {
+        return playerLifes;
     }
 }
