@@ -8,6 +8,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -76,6 +78,21 @@ public class GlobalListener implements Listener {
                 }
             }, 1);
 
+        }
+    }
+
+    @EventHandler
+    public void onChickenDamage(EntityDamageByEntityEvent e){
+        if(e.getDamager() instanceof Player){
+            Player p = (Player) e.getDamager();
+            if(Main.arenaManager.isPlaying(p)){
+                Arena arena = Main.arenaManager.getArena(p);
+                if(arena.getTeam(p) == Team.DEFENDING && e.getEntity() == arena.getChicken()){
+                    e.setCancelled(true);
+                    p.sendMessage("You are supposed to defend the chicken, not attack it");
+                }
+
+            }
         }
     }
 }
