@@ -2,6 +2,7 @@ package com.nunofacha.chickendefender.arenas.game;
 
 import com.nunofacha.chickendefender.Main;
 import com.nunofacha.chickendefender.arenas.Arena;
+import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class Countdown extends BukkitRunnable {
@@ -25,13 +26,13 @@ public class Countdown extends BukkitRunnable {
             arena.start();
         }
         if (seconds % 30 == 0 || seconds <= 10) {
-            arena.sendMessageToAll("The game will start in " + seconds + " seconds!");
+            arena.sendMessageToAll(ChatColor.GREEN+"The game will start in " + seconds + " seconds!");
         }
         if (arena.getPlayers().size() < arena.getMinPlayers()) {
             cancel();
             arena.setState(GameState.RECRUITING);
             Main.logger.info("Start canceled due to insufficient players for arena " + arena.getName());
-            arena.sendMessageToAll("Too few player, countdown canceled while we wait for more players");
+            arena.sendMessageToAll(ChatColor.RED+"Too few player, countdown canceled while we wait for more players");
         }
         seconds--;
     }

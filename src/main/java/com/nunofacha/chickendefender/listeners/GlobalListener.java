@@ -4,6 +4,7 @@ import com.nunofacha.chickendefender.Main;
 import com.nunofacha.chickendefender.arenas.Arena;
 import com.nunofacha.chickendefender.arenas.ArenaManager;
 import com.nunofacha.chickendefender.arenas.game.Team;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,7 +22,7 @@ public class GlobalListener implements Listener {
         if (Main.arenaManager.isPlaying(e.getPlayer())) {
             Arena arena = Main.arenaManager.getArena(e.getPlayer());
             arena.removePlayer(e.getPlayer());
-            arena.sendMessageToAll(e.getPlayer().getName() + " has left the game (disconnected)");
+            arena.sendMessageToAll("§r§4[-] §r"+e.getPlayer().getName() + " has left the game (disconnected)");
         }
     }
 
@@ -32,8 +33,8 @@ public class GlobalListener implements Listener {
                 for (Arena arena :  ArenaManager.getArenas()) {
                     if(arena.getChicken() == e.getEntity()){
                         Main.logger.info("Chicken for arena "+arena.getArenaId()+" has been killed!");
-                        arena.sendMessageToAttacking("The chicken is dead, you win!");
-                        arena.sendMessageToDefending("The chicken is dead, you lose!");
+                        arena.sendMessageToAttacking(ChatColor.GREEN+"The chicken is dead, you win!");
+                        arena.sendMessageToDefending(ChatColor.RED+"The chicken is dead, you lose!");
                         arena.finish();
                     }
                 }
@@ -52,16 +53,16 @@ public class GlobalListener implements Listener {
                     p.setFireTicks(0);
                     Arena arena = Main.arenaManager.getArena(p);
                     if(arena.getTeam(p) == Team.ATTACKING){
-                        arena.sendMessageToDefending("An attacking player has been killed: "+p.getName());
-                        arena.sendMessageToAttacking("A player from your team was killed: "+p.getName());
+                        arena.sendMessageToDefending(ChatColor.GREEN+"An attacking player has been killed: "+p.getName());
+                        arena.sendMessageToAttacking(ChatColor.RED+"A player from your team was killed: "+p.getName());
                     }else{
-                        arena.sendMessageToAttacking("An defending player has been killed: "+p.getName());
-                        arena.sendMessageToDefending("A player from your team was killed: "+p.getName());
+                        arena.sendMessageToAttacking(ChatColor.GREEN+"An defending player has been killed: "+p.getName());
+                        arena.sendMessageToDefending(ChatColor.RED+"A player from your team was killed: "+p.getName());
                     }
                     if(arena.deathCount.containsKey(p.getUniqueId())){
                         int currentDeaths = arena.deathCount.get(p.getUniqueId());
                         if(currentDeaths >= 3){
-                            arena.sendMessageToAll(p.getName()+" has been eliminated");
+                            arena.sendMessageToAll(ChatColor.RED+(net.md_5.bungee.api.ChatColor.BOLD+p.getName()+" has been eliminated"));
                             arena.removePlayer(p);
                             return;
                         }else{
@@ -89,7 +90,7 @@ public class GlobalListener implements Listener {
                 Arena arena = Main.arenaManager.getArena(p);
                 if(arena.getTeam(p) == Team.DEFENDING && e.getEntity() == arena.getChicken()){
                     e.setCancelled(true);
-                    p.sendMessage("You are supposed to defend the chicken, not attack it");
+                    p.sendMessage(ChatColor.RED+"You are supposed to defend the chicken, not attack it");
                 }
 
             }

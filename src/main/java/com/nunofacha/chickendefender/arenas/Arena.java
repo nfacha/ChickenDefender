@@ -39,6 +39,7 @@ public class Arena {
     private GameState state;
     private Countdown countdown;
     private int countdownDuration;
+    private int chickenHealth;
     private Chicken chicken;
     private ArrayList<UUID> attackingTeam = new ArrayList<>();
     private ArrayList<UUID> defendingTeam = new ArrayList<>();
@@ -53,6 +54,7 @@ public class Arena {
         this.minPlayers = Main.plugin.getConfig().getInt(this.configPath + ".players.min");
         this.maxPlayers = Main.plugin.getConfig().getInt(this.configPath + ".players.max");
         this.countdownDuration = Main.plugin.getConfig().getInt(this.configPath + ".countdown");
+        this.chickenHealth = Main.plugin.getConfig().getInt(this.configPath + ".chicken-health");
         this.world = Main.plugin.getServer().getWorld(Main.plugin.getConfig().getString(this.configPath + ".locations.world"));
         this.lobbySpawn = new Location(this.world,
                 Main.plugin.getConfig().getInt(this.configPath + ".locations.spawns.lobby.x"),
@@ -116,6 +118,7 @@ public class Arena {
         players.add(p.getUniqueId());
         p.teleport(lobbySpawn);
         p.sendMessage("You have been teleported to arena lobby");
+        sendMessageToAll("§r§a[+] §r "+p.getName());
         if (players.size() >= getMinPlayers() && !getState().equals(GameState.COUNTDOWN)) {
             countdown.begin();
         }
@@ -137,6 +140,7 @@ public class Arena {
         }
         p.teleport(Main.arenaManager.getLobbyLocation());
         p.sendMessage("You left the arena");
+        sendMessageToAll("§r§4[-] §r "+p.getName());
     }
 
     public GameState getState() {
@@ -171,9 +175,9 @@ public class Arena {
 
         Entity chickenEntity = chickenSpawn.getWorld().spawnEntity(this.chickenSpawn, EntityType.CHICKEN);
         this.chicken = (Chicken) chickenEntity;
-        this.chicken.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(15);
+        this.chicken.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(this.chickenHealth);
         chicken.setGlowing(true);
-        chicken.setHealth(15);
+        chicken.setHealth(this.chickenHealth);
         chicken.setCustomName(ChatColor.BOLD+(ChatColor.RED+"The Chicken"));
         chicken.setCustomNameVisible(true);
     }
@@ -217,10 +221,10 @@ public class Arena {
     public void setPlayerTeam(Player p, Team team) {
         if (team.equals(Team.ATTACKING)) {
             attackingTeam.add(p.getUniqueId());
-            p.sendMessage("You have joined the attacking team");
+            p.sendMessage(ChatColor.RED+"You have joined the attacking team");
         } else {
             defendingTeam.add(p.getUniqueId());
-            p.sendMessage("You have joined the defending team");
+            p.sendMessage(ChatColor.GREEN+"You have joined the defending team");
         }
     }
 

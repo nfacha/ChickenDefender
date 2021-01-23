@@ -9,6 +9,7 @@ arenas:
     name: chicken
     team-selection: false
     countdown: 30
+    chicken-health: 50
     players:
       min: 2
       max: 10
