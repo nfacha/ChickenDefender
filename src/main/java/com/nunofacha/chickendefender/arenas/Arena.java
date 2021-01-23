@@ -38,6 +38,7 @@ public class Arena {
     private ArrayList<UUID> players = new ArrayList<>();
     private GameState state;
     private Countdown countdown;
+    private int countdownDuration;
     private Chicken chicken;
     private ArrayList<UUID> attackingTeam = new ArrayList<>();
     private ArrayList<UUID> defendingTeam = new ArrayList<>();
@@ -51,6 +52,7 @@ public class Arena {
         this.teamSelection = Main.plugin.getConfig().getBoolean(this.configPath + ".team-selection");
         this.minPlayers = Main.plugin.getConfig().getInt(this.configPath + ".players.min");
         this.maxPlayers = Main.plugin.getConfig().getInt(this.configPath + ".players.max");
+        this.countdownDuration = Main.plugin.getConfig().getInt(this.configPath + ".countdown");
         this.world = Main.plugin.getServer().getWorld(Main.plugin.getConfig().getString(this.configPath + ".locations.world"));
         this.lobbySpawn = new Location(this.world,
                 Main.plugin.getConfig().getInt(this.configPath + ".locations.spawns.lobby.x"),
@@ -90,7 +92,7 @@ public class Arena {
         minVector = new Vector(xPos1, yPos1, zPos1);
         maxVector = new Vector(xPos2, yPos2, zPos2);
         state = GameState.RECRUITING;
-        countdown = new Countdown(this, 30);
+        countdown = new Countdown(this, countdownDuration);
         Main.logger.info("Arena " + this.name + " was loaded with ID " + arenaId);
     }
 
@@ -121,17 +123,18 @@ public class Arena {
 
     public void removePlayer(Player p) {
         if(getTeam(p) == Team.DEFENDING){
+            defendingTeam.remove(p.getUniqueId());
             if(defendingTeam.size() == 0){
                 sendMessageToAll("All defending players have been eliminated, attacking team wins");
                 finish();
             }
         }else{
+            attackingTeam.remove(p.getUniqueId());
             if(attackingTeam.size() == 0){
                 sendMessageToAll("All attacking players have been eliminated, defending team wins");
                 finish();
             }
         }
-        players.remove(p.getUniqueId());
         p.teleport(Main.arenaManager.getLobbyLocation());
         p.sendMessage("You left the arena");
     }
