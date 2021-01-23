@@ -63,4 +63,6 @@ public class ArenaManager {
     public Location getLobbyLocation() {
         return lobbyLocation;
     }
+
+
 }

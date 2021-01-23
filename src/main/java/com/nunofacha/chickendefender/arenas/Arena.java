@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 @SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal", "ConstantConditions"})
@@ -40,6 +41,7 @@ public class Arena {
     private Chicken chicken;
     private ArrayList<UUID> attackingTeam = new ArrayList<>();
     private ArrayList<UUID> defendingTeam = new ArrayList<>();
+    public HashMap<UUID, Integer> deathCount = new HashMap<>();
 
     public Arena(int arenaId) {
         this.arenaId = arenaId;
@@ -118,6 +120,17 @@ public class Arena {
     }
 
     public void removePlayer(Player p) {
+        if(getTeam(p) == Team.DEFENDING){
+            if(defendingTeam.size() == 0){
+                sendMessageToAll("All defending players have been eliminated, attacking team wins");
+                finish();
+            }
+        }else{
+            if(attackingTeam.size() == 0){
+                sendMessageToAll("All attacking players have been eliminated, defending team wins");
+                finish();
+            }
+        }
         players.remove(p.getUniqueId());
         p.teleport(Main.arenaManager.getLobbyLocation());
         p.sendMessage("You left the arena");
@@ -171,6 +184,7 @@ public class Arena {
         attackingTeam.clear();
         defendingTeam.clear();
         chicken.remove();
+        deathCount.clear();
         chicken = null;
         setState(GameState.RECRUITING);
 
@@ -218,5 +232,23 @@ public class Arena {
 
     public int getMaxPlayers() {
         return maxPlayers;
+    }
+
+    public Team getTeam(Player p){
+        if(attackingTeam.contains(p.getUniqueId())){
+            return Team.ATTACKING;
+        }
+        if(defendingTeam.contains(p.getUniqueId())){
+            return Team.DEFENDING;
+        }
+        return null;
+    }
+
+    public Location getAttackingSpawn() {
+        return attackingSpawn;
+    }
+
+    public Location getDefendingSpawn() {
+        return defendingSpawn;
     }
 }

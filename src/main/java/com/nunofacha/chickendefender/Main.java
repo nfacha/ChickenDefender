@@ -1,6 +1,8 @@
 package com.nunofacha.chickendefender;
 
+import com.nunofacha.chickendefender.arenas.Arena;
 import com.nunofacha.chickendefender.arenas.ArenaManager;
+import com.nunofacha.chickendefender.arenas.game.GameState;
 import com.nunofacha.chickendefender.commands.ChickenJoinCommand;
 import com.nunofacha.chickendefender.listeners.GlobalListener;
 import org.bukkit.plugin.Plugin;
@@ -30,8 +32,13 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        for (Arena arena :
+                ArenaManager.getArenas()) {
+            if (arena.getState() == GameState.LIVE) {
+                arena.finish();
+            }
+        }
+
+
     }
-
-
 }

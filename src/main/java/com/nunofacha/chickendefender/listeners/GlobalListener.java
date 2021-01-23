@@ -3,10 +3,13 @@ package com.nunofacha.chickendefender.listeners;
 import com.nunofacha.chickendefender.Main;
 import com.nunofacha.chickendefender.arenas.Arena;
 import com.nunofacha.chickendefender.arenas.ArenaManager;
+import com.nunofacha.chickendefender.arenas.game.Team;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class GlobalListener implements Listener {
@@ -33,6 +36,46 @@ public class GlobalListener implements Listener {
                     }
                 }
             }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent e){
+        Player p = e.getEntity();
+        if(Main.arenaManager.isPlaying(p)){
+            Main.plugin.getServer().getScheduler().runTaskLater(Main.plugin, new Runnable() {
+                @Override
+                public void run() {
+                    p.spigot().respawn();
+                    p.setFireTicks(0);
+                    Arena arena = Main.arenaManager.getArena(p);
+                    if(arena.getTeam(p) == Team.ATTACKING){
+                        arena.sendMessageToDefending("An attacking player has been killed: "+p.getName());
+                        arena.sendMessageToAttacking("A player from your team was killed: "+p.getName());
+                    }else{
+                        arena.sendMessageToAttacking("An defending player has been killed: "+p.getName());
+                        arena.sendMessageToDefending("A player from your team was killed: "+p.getName());
+                    }
+                    if(arena.deathCount.containsKey(p.getUniqueId())){
+                        int currentDeaths = arena.deathCount.get(p.getUniqueId());
+                        if(currentDeaths >= 3){
+                            arena.sendMessageToAll(p.getName()+" has been eliminated");
+                            arena.removePlayer(p);
+                            return;
+                        }else{
+                            arena.deathCount.replace(p.getUniqueId(), currentDeaths+1);
+                        }
+                    }else{
+                        arena.deathCount.put(p.getUniqueId(), 1);
+                    }
+                    if(arena.getTeam(p) == Team.DEFENDING){
+                        p.teleport(arena.getDefendingSpawn());
+                    }else {
+                        p.teleport(arena.getAttackingSpawn());
+                    }
+                }
+            }, 1);
+
         }
     }
 }
