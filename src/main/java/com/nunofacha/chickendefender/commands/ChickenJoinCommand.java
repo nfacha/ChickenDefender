@@ -22,7 +22,7 @@ public class ChickenJoinCommand implements CommandExecutor {
             sender.sendMessage("You are already on an arena");
             return false;
         }
-        if (!arena.getState().equals(GameState.RECRUITING)) {
+        if (!arena.getState().equals(GameState.RECRUITING) && (!arena.getState().equals(GameState.COUNTDOWN) && arena.getPlayers().size() <= arena.getMaxPlayers())) {
             sender.sendMessage("Arena not ready");
             return false;
         }

@@ -4,9 +4,13 @@ import com.nunofacha.chickendefender.Main;
 import com.nunofacha.chickendefender.arenas.game.Countdown;
 import com.nunofacha.chickendefender.arenas.game.GameState;
 import com.nunofacha.chickendefender.arenas.game.Team;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Chicken;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -108,7 +112,7 @@ public class Arena {
         players.add(p.getUniqueId());
         p.teleport(lobbySpawn);
         p.sendMessage("You have been teleported to arena lobby");
-        if (players.size() >= getMinPlayers()) {
+        if (players.size() >= getMinPlayers() && !getState().equals(GameState.COUNTDOWN)) {
             countdown.begin();
         }
     }
@@ -147,10 +151,47 @@ public class Arena {
             }
         }
         this.setState(GameState.LIVE);
+        //Chicken time
+
+        Entity chickenEntity = chickenSpawn.getWorld().spawnEntity(this.chickenSpawn, EntityType.CHICKEN);
+        this.chicken = (Chicken) chickenEntity;
+        this.chicken.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(15);
+        chicken.setGlowing(true);
+        chicken.setHealth(15);
+        chicken.setCustomName(ChatColor.BOLD+(ChatColor.RED+"The Chicken"));
+        chicken.setCustomNameVisible(true);
+    }
+
+    public void finish() {
+        for (UUID uuid : players) {
+            Player p = Main.plugin.getServer().getPlayer(uuid);
+            p.teleport(Main.arenaManager.getLobbyLocation());
+        }
+        players.clear();
+        attackingTeam.clear();
+        defendingTeam.clear();
+        chicken.remove();
+        chicken = null;
+        setState(GameState.RECRUITING);
+
     }
 
     public void sendMessageToAll(String msg) {
         for (UUID uuid : players) {
+            Player p = Main.plugin.getServer().getPlayer(uuid);
+            p.sendMessage(msg);
+        }
+    }
+
+    public void sendMessageToAttacking(String msg) {
+        for (UUID uuid : attackingTeam) {
+            Player p = Main.plugin.getServer().getPlayer(uuid);
+            p.sendMessage(msg);
+        }
+    }
+
+    public void sendMessageToDefending(String msg) {
+        for (UUID uuid : defendingTeam) {
             Player p = Main.plugin.getServer().getPlayer(uuid);
             p.sendMessage(msg);
         }
@@ -169,5 +210,13 @@ public class Arena {
 
     public int getMinPlayers() {
         return minPlayers;
+    }
+
+    public Chicken getChicken() {
+        return chicken;
+    }
+
+    public int getMaxPlayers() {
+        return maxPlayers;
     }
 }
