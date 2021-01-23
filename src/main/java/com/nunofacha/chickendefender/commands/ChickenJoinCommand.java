@@ -16,17 +16,27 @@ public class ChickenJoinCommand implements CommandExecutor {
             return false;
         }
         Player p = (Player) sender;
-        int arenaId = Integer.parseInt(args[0]);
-        Arena arena = Main.arenaManager.getArena(arenaId);
-        if (Main.arenaManager.isPlaying(p)) {
-            sender.sendMessage("You are already on an arena");
+        try{
+            int arenaId = Integer.parseInt(args[0]);
+            Arena arena = Main.arenaManager.getArena(arenaId);
+            if(arena == null){
+                sender.sendMessage("Invalid arena");
+                return false;
+            }
+            if (Main.arenaManager.isPlaying(p)) {
+                sender.sendMessage("You are already on an arena");
+                return false;
+            }
+            if (!arena.getState().equals(GameState.RECRUITING) && (!arena.getState().equals(GameState.COUNTDOWN) && arena.getPlayers().size() <= arena.getMaxPlayers())) {
+                sender.sendMessage("Arena not ready");
+                return false;
+            }
+            arena.addPlayer(p);
+        }catch (NumberFormatException e){
+            sender.sendMessage("Invalid arena");
             return false;
         }
-        if (!arena.getState().equals(GameState.RECRUITING) && (!arena.getState().equals(GameState.COUNTDOWN) && arena.getPlayers().size() <= arena.getMaxPlayers())) {
-            sender.sendMessage("Arena not ready");
-            return false;
-        }
-        arena.addPlayer(p);
+
         return false;
     }
 }
