@@ -1,0 +1,43 @@
+config-version: 1 #DONT CHANGE THIS!
+lobby:
+  x: 0
+  y: 0
+  z: 0
+  world: world
+arenas:
+  0:
+    name: chicken
+    team-selection: false
+    countdown: 30
+    chicken-health: 50
+    player-lives: 3
+    players:
+      min: 2
+      max: 10
+    locations:
+      world: world
+      spawns:
+        lobby:
+          x: 0
+          y: 0
+          z: 0
+        attacking:
+          x: 0
+          y: 0
+          z: 0
+        defending:
+          x: 0
+          y: 0
+          z: 0
+        chicken:
+          x: 10
+          y: 10
+          z: 10
+      corner1:
+        x: 0
+        y: 0
+        z: 0
+      corner2:
+        x: 0
+        y: 0
+        z: 0
