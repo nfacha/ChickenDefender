@@ -98,7 +98,6 @@ public class Arena {
         minVector = new Vector(xPos1, yPos1, zPos1);
         maxVector = new Vector(xPos2, yPos2, zPos2);
         state = GameState.RECRUITING;
-        countdown = new Countdown(this, countdownDuration);
         Main.logger.info("Arena " + this.name + " was loaded with ID " + arenaId);
     }
 
@@ -124,6 +123,7 @@ public class Arena {
         p.sendMessage("You have been teleported to arena lobby");
         sendMessageToAll("§r§a[+] §r "+p.getName());
         if (players.size() >= getMinPlayers() && !getState().equals(GameState.COUNTDOWN)) {
+            countdown = new Countdown(this, countdownDuration);
             countdown.begin();
         }
     }

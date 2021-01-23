@@ -23,6 +23,7 @@ public class Countdown extends BukkitRunnable {
     public void run() {
         if (this.seconds == 0) {
             cancel();
+            this.
             arena.start();
         }
         if (seconds % 30 == 0 || seconds <= 10) {
