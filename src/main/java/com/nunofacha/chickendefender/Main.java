@@ -5,8 +5,11 @@ import com.nunofacha.chickendefender.arenas.ArenaManager;
 import com.nunofacha.chickendefender.arenas.game.GameState;
 import com.nunofacha.chickendefender.commands.ChickenJoinCommand;
 import com.nunofacha.chickendefender.listeners.GlobalListener;
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import java.util.logging.Logger;
 
@@ -14,6 +17,9 @@ public class Main extends JavaPlugin {
     public static Plugin plugin;
     public static Logger logger;
     public static ArenaManager arenaManager;
+    public static Scoreboard scoreboard;
+    public static Team sbAttackTeam;
+    public static Team sbDefendTeam;
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -26,6 +32,18 @@ public class Main extends JavaPlugin {
         saveDefaultConfig();
         logger.info("Config Version: " + getConfig().getInt("config-version"));
         arenaManager = new ArenaManager();
+        scoreboard = this.getServer().getScoreboardManager().getNewScoreboard();
+        scoreboard.registerNewObjective("Test", "Test", "Test");
+        sbAttackTeam = scoreboard.registerNewTeam(ChatColor.RED+"cdAttack");
+        sbAttackTeam.setColor(ChatColor.RED);
+        sbAttackTeam.setPrefix(ChatColor.RED.toString());
+        sbAttackTeam.setSuffix(ChatColor.RED.toString());
+        sbAttackTeam.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
+        sbDefendTeam = scoreboard.registerNewTeam(ChatColor.GREEN+"cdDefend");
+        sbDefendTeam.setColor(ChatColor.GREEN);
+        sbDefendTeam.setPrefix(ChatColor.GREEN.toString());
+        sbDefendTeam.setSuffix(ChatColor.GREEN.toString());
+        sbDefendTeam.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
         getServer().getPluginManager().registerEvents(new GlobalListener(), this);
         getCommand("chickenjoin").setExecutor(new ChickenJoinCommand());
     }

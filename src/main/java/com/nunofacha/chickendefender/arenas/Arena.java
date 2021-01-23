@@ -12,6 +12,8 @@ import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
@@ -140,6 +142,9 @@ public class Arena {
                 finish();
             }
         }
+        Main.sbDefendTeam.removeEntry(p.getName());
+        Main.sbAttackTeam.removeEntry(p.getName());
+        p.removePotionEffect(PotionEffectType.GLOWING);
         p.teleport(Main.arenaManager.getLobbyLocation());
         p.sendMessage("You left the arena");
         sendMessageToAll("§r§4[-] §r "+p.getName());
@@ -171,6 +176,7 @@ public class Arena {
             } else {
                 p.teleport(attackingSpawn);
             }
+            p.setScoreboard(Main.scoreboard);
         }
         this.setState(GameState.LIVE);
         //Chicken time
@@ -188,6 +194,9 @@ public class Arena {
         for (UUID uuid : players) {
             Player p = Main.plugin.getServer().getPlayer(uuid);
             p.teleport(Main.arenaManager.getLobbyLocation());
+            Main.sbDefendTeam.removeEntry(p.getName());
+            Main.sbAttackTeam.removeEntry(p.getName());
+            p.removePotionEffect(PotionEffectType.GLOWING);
         }
         players.clear();
         attackingTeam.clear();
@@ -224,9 +233,13 @@ public class Arena {
         if (team.equals(Team.ATTACKING)) {
             attackingTeam.add(p.getUniqueId());
             p.sendMessage(ChatColor.RED+"You have joined the attacking team");
+            Main.sbAttackTeam.addEntry(p.getName());
+            p.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE,1, true));
         } else {
             defendingTeam.add(p.getUniqueId());
             p.sendMessage(ChatColor.GREEN+"You have joined the defending team");
+            Main.sbDefendTeam.addEntry(p.getName());
+            p.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE,1, true));
         }
     }
 
