@@ -149,12 +149,14 @@ public class Arena {
     public void removePlayer(Player p) {
         if(getTeam(p) == Team.DEFENDING){
             defendingTeam.remove(p.getUniqueId());
+            players.remove(p.getUniqueId());
             if(defendingTeam.size() == 0){
                 sendMessageToAll("All defending players have been eliminated, attacking team wins");
                 finish();
             }
         }else{
             attackingTeam.remove(p.getUniqueId());
+            players.remove(p.getUniqueId());
             if(attackingTeam.size() == 0){
                 sendMessageToAll("All attacking players have been eliminated, defending team wins");
                 finish();
