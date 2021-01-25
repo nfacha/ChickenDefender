@@ -41,3 +41,9 @@ arenas:
         x: 0
         y: 0
         z: 0
+      sign:
+        x: 0
+        y: 0
+        z: 0
+        world: world
+        enabled: false

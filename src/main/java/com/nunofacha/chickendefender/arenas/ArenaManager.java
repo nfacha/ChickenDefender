@@ -16,6 +16,10 @@ public class ArenaManager {
         for (int i = 0; i < totalArenas; i++) {
             arenas.add(new Arena(i));
         }
+        loadConfig();
+    }
+
+    public void loadConfig(){
         //noinspection ConstantConditions
         this.lobbyLocation = new Location(
                 Main.plugin.getServer().getWorld(Main.plugin.getConfig().getString("lobby.world")),
@@ -24,7 +28,6 @@ public class ArenaManager {
                 Main.plugin.getConfig().getInt("lobby.z")
         );
     }
-
     private int getArenaCount() {
         return Main.plugin.getConfig().getConfigurationSection("arenas").getKeys(false).size();
     }
