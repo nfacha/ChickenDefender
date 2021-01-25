@@ -283,4 +283,8 @@ public class Arena {
     public int getPlayerLives() {
         return playerLives;
     }
+
+    public String getConfigPath() {
+        return configPath;
+    }
 }

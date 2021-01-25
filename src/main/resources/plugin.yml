@@ -9,3 +9,5 @@ website: nunofacha.com
 commands:
   chickenjoin:
     description: Joins an arena
+  chickenset:
+    description: Joins an arena
