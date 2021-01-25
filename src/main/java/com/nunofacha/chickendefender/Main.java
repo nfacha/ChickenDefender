@@ -35,7 +35,7 @@ public class Main extends JavaPlugin {
         logger.info("Config Version: " + getConfig().getInt("config-version"));
         arenaManager = new ArenaManager();
         scoreboard = this.getServer().getScoreboardManager().getNewScoreboard();
-        scoreboard.registerNewObjective("Test", "Test", "Test");
+//        scoreboard.registerNewObjective("Test", "Test", "Test");
         sbAttackTeam = scoreboard.registerNewTeam(ChatColor.RED+"cdAttack");
         sbAttackTeam.setColor(ChatColor.RED);
         sbAttackTeam.setPrefix(ChatColor.RED.toString());

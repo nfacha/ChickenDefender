@@ -15,6 +15,9 @@ public class SignListener implements Listener {
     @EventHandler
     public void onSignClick(PlayerInteractEvent e){
         Block block = e.getClickedBlock();
+        if(block == null){
+            return;
+        }
         if(block.getType().toString().contains("WALL_SIGN")){
             Main.logger.info("Clicked sign");
             Sign sign = (Sign) block.getState();
