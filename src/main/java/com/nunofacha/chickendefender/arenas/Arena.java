@@ -52,6 +52,12 @@ public class Arena {
         this.arenaId = arenaId;
         this.configPath = "arenas." + arenaId;
         //Load config
+        loadConfig();
+        state = GameState.RECRUITING;
+    }
+
+    public void loadConfig(){
+        //Load config
         this.name = Main.plugin.getConfig().getString(this.configPath + ".name");
         this.teamSelection = Main.plugin.getConfig().getBoolean(this.configPath + ".team-selection");
         this.minPlayers = Main.plugin.getConfig().getInt(this.configPath + ".players.min");
