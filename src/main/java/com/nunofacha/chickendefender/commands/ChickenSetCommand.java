@@ -68,6 +68,13 @@ public class ChickenSetCommand implements CommandExecutor {
                     Main.plugin.getConfig().set(arena.getConfigPath()+".locations.world", location.getWorld().getName());
                     sender.sendMessage("Arena CHICKEN spawn set");
                     break;
+                case "lobby":
+                    Main.plugin.getConfig().set(arena.getConfigPath()+".locations.spawns.lobby.x", location.getX());
+                    Main.plugin.getConfig().set(arena.getConfigPath()+".locations.spawns.lobby.y", location.getY());
+                    Main.plugin.getConfig().set(arena.getConfigPath()+".locations.spawns.lobby.z", location.getZ());
+                    Main.plugin.getConfig().set(arena.getConfigPath()+".locations.world", location.getWorld().getName());
+                    sender.sendMessage("Arena LOBBY spawn set");
+                    break;
                 case "corner1":
                     Main.plugin.getConfig().set(arena.getConfigPath()+".locations.corner1.x", location.getX());
                     Main.plugin.getConfig().set(arena.getConfigPath()+".locations.corner1.y", location.getY());
@@ -80,7 +87,7 @@ public class ChickenSetCommand implements CommandExecutor {
                     Main.plugin.getConfig().set(arena.getConfigPath()+".locations.corner2.y", location.getY());
                     Main.plugin.getConfig().set(arena.getConfigPath()+".locations.corner2.z", location.getZ());
                     Main.plugin.getConfig().set(arena.getConfigPath()+".locations.world", location.getWorld().getName());
-                    sender.sendMessage("Arena CORNER1 set");
+                    sender.sendMessage("Arena CORNER2 set");
                     break;
             }
             try {
@@ -91,11 +98,12 @@ public class ChickenSetCommand implements CommandExecutor {
             }
             return false;
         }
-        Arena arena = ArenaManager.getArenas().get(Integer.parseInt(args[0]));
-        if(arena == null){
-            sender.sendMessage("Invalid Arena");
-            return false;
-        }
+
+//        Arena arena = ArenaManager.getArenas().get(Integer.parseInt(args[0]));
+//        if(arena == null){
+//            sender.sendMessage("Invalid Arena");
+//            return false;
+//        }
         return false;
     }
 }
