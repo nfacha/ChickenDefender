@@ -89,6 +89,18 @@ public class ChickenSetCommand implements CommandExecutor {
                     Main.plugin.getConfig().set(arena.getConfigPath()+".locations.world", location.getWorld().getName());
                     sender.sendMessage("Arena CORNER2 set");
                     break;
+                case "sign":
+                    location = ((Player) sender).getTargetBlockExact(5).getLocation();
+                    if(!location.getBlock().getType().toString().contains("WALL_SIGN")){
+                        sender.sendMessage("You must be looking at a sign (placed on a wall)");
+                        return false;
+                    }
+                    Main.plugin.getConfig().set(arena.getConfigPath()+".locations.sign.x", location.getX());
+                    Main.plugin.getConfig().set(arena.getConfigPath()+".locations.sign.y", location.getY());
+                    Main.plugin.getConfig().set(arena.getConfigPath()+".locations.sign.z", location.getZ());
+                    Main.plugin.getConfig().set(arena.getConfigPath()+".locations.sign.world", location.getWorld().getName());
+                    sender.sendMessage("Arena SIGN set");
+                    break;
             }
             try {
                 Main.plugin.getConfig().save(Main.plugin.getDataFolder()+"/config.yml");
