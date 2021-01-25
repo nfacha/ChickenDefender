@@ -7,6 +7,7 @@ import com.nunofacha.chickendefender.commands.ChickenJoinCommand;
 import com.nunofacha.chickendefender.commands.ChickenSetCommand;
 import com.nunofacha.chickendefender.listeners.GlobalListener;
 import com.nunofacha.chickendefender.listeners.SignListener;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -50,6 +51,10 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new SignListener(), this);
         getCommand("chickenjoin").setExecutor(new ChickenJoinCommand());
         getCommand("chickenset").setExecutor(new ChickenSetCommand());
+        Metrics metrics = new Metrics(this, 10121);
+        if(metrics.isEnabled()){
+            Main.logger.info("Statistics loaded!");
+        }
     }
 
     @Override
