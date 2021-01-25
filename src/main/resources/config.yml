@@ -46,3 +46,4 @@ arenas:
         y: 0
         z: 0
         world: world
+        enabled: false

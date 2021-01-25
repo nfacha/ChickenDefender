@@ -8,6 +8,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -33,6 +35,8 @@ public class Arena {
     private Location attackingSpawn;
     private Location defendingSpawn;
     private Location chickenSpawn;
+    private Location signLocation;
+    private Boolean signEnabled;
     private Location corner1;
     private Location corner2;
     private Vector minVector;
@@ -65,6 +69,7 @@ public class Arena {
         this.countdownDuration = Main.plugin.getConfig().getInt(this.configPath + ".countdown");
         this.chickenHealth = Main.plugin.getConfig().getInt(this.configPath + ".chicken-health");
         this.playerLives = Main.plugin.getConfig().getInt(this.configPath + ".player-lives");
+        this.signEnabled = Main.plugin.getConfig().getBoolean(this.configPath + ".locations.sign.enabled");
         this.world = Main.plugin.getServer().getWorld(Main.plugin.getConfig().getString(this.configPath + ".locations.world"));
         this.lobbySpawn = new Location(this.world,
                 Main.plugin.getConfig().getInt(this.configPath + ".locations.spawns.lobby.x"),
@@ -86,6 +91,11 @@ public class Arena {
                 Main.plugin.getConfig().getInt(this.configPath + ".locations.corner1.x"),
                 Main.plugin.getConfig().getInt(this.configPath + ".locations.corner1.y"),
                 Main.plugin.getConfig().getInt(this.configPath + ".locations.corner1.z"));
+        this.signLocation = new Location(
+                Main.plugin.getServer().getWorld(Main.plugin.getConfig().getString(this.configPath + ".locations.sign.world")),
+                Main.plugin.getConfig().getInt(this.configPath + ".locations.sign.x"),
+                Main.plugin.getConfig().getInt(this.configPath + ".locations.sign.y"),
+                Main.plugin.getConfig().getInt(this.configPath + ".locations.sign.z"));
 
         int xPos1 = Math.min(Main.plugin.getConfig().getInt(this.configPath + ".locations.corner1.x"),
                 Main.plugin.getConfig().getInt(this.configPath + ".locations.corner2.x"));
@@ -105,6 +115,7 @@ public class Arena {
         maxVector = new Vector(xPos2, yPos2, zPos2);
         state = GameState.RECRUITING;
         Main.logger.info("Arena " + this.name + " was loaded with ID " + arenaId);
+        updateSign();
     }
 
     public boolean containsLocation(Location location) {
@@ -132,6 +143,7 @@ public class Arena {
             countdown = new Countdown(this, countdownDuration);
             countdown.begin();
         }
+        updateSign();
     }
 
     public void removePlayer(Player p) {
@@ -154,6 +166,7 @@ public class Arena {
         p.teleport(Main.arenaManager.getLobbyLocation());
         p.sendMessage("You left the arena");
         sendMessageToAll("§r§4[-] §r "+p.getName());
+        updateSign();
     }
 
     public GameState getState() {
@@ -194,6 +207,7 @@ public class Arena {
         chicken.setHealth(this.chickenHealth);
         chicken.setCustomName(ChatColor.BOLD+(ChatColor.RED+"The Chicken"));
         chicken.setCustomNameVisible(true);
+        updateSign();
     }
 
     public void finish() {
@@ -211,6 +225,7 @@ public class Arena {
         deathCount.clear();
         chicken = null;
         setState(GameState.RECRUITING);
+        updateSign();
 
     }
 
@@ -286,5 +301,31 @@ public class Arena {
 
     public String getConfigPath() {
         return configPath;
+    }
+
+    public void updateSign(){
+        if(signEnabled){
+            Block block  = signLocation.getBlock();
+            if(!block.getType().toString().contains("WALL_SIGN")){
+                Main.logger.severe("Unable to set arena sign, invalid block for arena "+name+ " expected sign found "+block.getType().toString());
+                return;
+            }
+            Sign sign = (Sign) block.getState();
+            sign.setLine(0, ChatColor.GOLD+("CHICKEN-DEF"));
+            sign.setLine(1, arenaId+"");
+            switch (state){
+                case RECRUITING:
+                    sign.setLine(2, ChatColor.GREEN+(ChatColor.BOLD+"RECRUITING"));
+                    break;
+                case COUNTDOWN:
+                    sign.setLine(2, ChatColor.YELLOW+(ChatColor.BOLD+"STARTING..."));
+                    break;
+                case LIVE:
+                    sign.setLine(2, ChatColor.RED+(ChatColor.BOLD+"IN GAME"));
+                    break;
+            }
+            sign.setLine(3, players.size()+"/"+maxPlayers);
+            sign.update();
+        }
     }
 }
