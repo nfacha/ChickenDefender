@@ -328,4 +328,8 @@ public class Arena {
             sign.update();
         }
     }
+
+    public Location getSignLocation() {
+        return signLocation;
+    }
 }
