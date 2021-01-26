@@ -7,6 +7,7 @@ import com.nunofacha.chickendefender.commands.ChickenJoinCommand;
 import com.nunofacha.chickendefender.commands.ChickenSetCommand;
 import com.nunofacha.chickendefender.listeners.GlobalListener;
 import com.nunofacha.chickendefender.listeners.SignListener;
+import com.nunofacha.chickendefender.updater.Updater;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
@@ -14,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
 public class Main extends JavaPlugin {
@@ -54,6 +56,11 @@ public class Main extends JavaPlugin {
         Metrics metrics = new Metrics(this, 10121);
         if(metrics.isEnabled()){
             Main.logger.info("Statistics loaded!");
+        }
+        try {
+            Updater updater = new Updater();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
