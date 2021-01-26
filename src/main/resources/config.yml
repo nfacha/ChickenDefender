@@ -1,67 +1,66 @@
 config-version: 3 #DONT CHANGE THIS!
-auto-update: true
-update-channel: master
-lobby:
+auto-update: true #Do we want to always keep the plugin updated?
+update-channel: master #master = stable | dev = development versions
+lobby: #General Lobby location, this is where players are teleported after the game os over (/chickenset lobby)
   x: 0
   y: 0
   z: 0
   world: world
-arenas:
+arenas: #Config for each arenas, to add a new arena just duplicate the default item and increase its name by one (so your first additional arena would be named 0)
   0:
-    name: chicken
-    team-selection: false
-    clear-inventory: true
-    default-kit: demo
-    countdown: 30
-    chicken-health: 50
-    player-lives: 3
+    name: chicken #Arena name, indicative only
+    clear-inventory: true #Clear player inventory on join? (item are returned on leave) - Kits are not available if disabled
+    default-kit: demo #Default kit given on join
+    countdown: 30 #How long is the countdown after we have enough players?
+    chicken-health: 50 #How many half hearts does the chicken have?
+    player-lives: 3 #How many times do the players respawn before they are eliminated?
     players:
-      min: 2
-      max: 10
+      min: 2 #Min players to trigger an arena start
+      max: 10 #Max players allowed for this arena
     locations:
       world: world
       spawns:
-        lobby:
+        lobby: #Area lobby, where the player is after joining the arena and is waiting for the game to start (/chickenset arena 0 spawn)
           x: 0
           y: 0
           z: 0
-        attacking:
+        attacking: #Where does the attacking team spawn (/chickenset arena 0 attacking)
           x: 0
           y: 0
           z: 0
-        defending:
+        defending: #Where does the defending team spawn (/chickenset arena 0 defending)
           x: 0
           y: 0
           z: 0
-        chicken:
+        chicken: #Where does the chicken spawn (/chickenset arena 0 chicken)
           x: 10
           y: 10
           z: 10
-      corner1:
+      corner1: #Top right corner of the arena region (/chickenset arena 0 corner1)
         x: 0
         y: 0
         z: 0
-      corner2:
+      corner2: #Bottom left corner of the arena region (/chickenset arena 0 corner2)
         x: 0
         y: 0
         z: 0
-      sign:
+      sign: #Location of the arena join/status sign (/chickenset arena 0 sign)
         x: 0
         y: 0
         z: 0
         world: world
         enabled: false
 
-kits:
+kits: #As the arenas each kit has its own config section, duplicate them as you need
   demo:
-    name: Demo Kit 1
-    items:
+    name: Demo Kit 1 #Kit name displayed to the player
+    items: #To add more items duplicate each section and increase the number
       0:
-        type: DIAMOND_SWORD
-        name: Cute Sword
-        amount: 1
-        enchantments:
-          - FIRE_ASPECT-1
+        type: DIAMOND_SWORD #Item type (possible types: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html)
+        name: Cute Sword #Item name
+        amount: 1 #How much of this item?
+        enchantments: #Each line its a new enchantment
+          - FIRE_ASPECT-1 #Use the format "NAME-LEVEL" (possible names: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/enchantments/Enchantment.html)
       1:
         type: WOODEN_SWORD
         name: Weak Sword
