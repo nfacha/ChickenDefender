@@ -14,6 +14,8 @@ import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -51,6 +53,7 @@ public class Arena {
     private ArrayList<UUID> attackingTeam = new ArrayList<>();
     private ArrayList<UUID> defendingTeam = new ArrayList<>();
     public HashMap<UUID, Integer> deathCount = new HashMap<>();
+    public HashMap<UUID, ItemStack[]> playerInventory = new HashMap<>();
 
     public Arena(int arenaId) {
         this.arenaId = arenaId;
@@ -143,6 +146,8 @@ public class Arena {
             countdown = new Countdown(this, countdownDuration);
             countdown.begin();
         }
+        playerInventory.put(p.getUniqueId(), p.getInventory().getContents());
+        p.getInventory().clear();
         updateSign();
     }
 
@@ -169,6 +174,10 @@ public class Arena {
         p.sendMessage("You left the arena");
         sendMessageToAll("§r§4[-] §r "+p.getName());
         updateSign();
+        if(playerInventory.containsKey(p.getUniqueId())){
+            p.getInventory().setContents(playerInventory.get(p.getUniqueId()));
+            playerInventory.remove(p.getUniqueId());
+        }
     }
 
     public GameState getState() {
