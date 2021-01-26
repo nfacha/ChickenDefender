@@ -7,15 +7,19 @@ import com.nunofacha.chickendefender.commands.ChickenJoinCommand;
 import com.nunofacha.chickendefender.commands.ChickenSetCommand;
 import com.nunofacha.chickendefender.listeners.GlobalListener;
 import com.nunofacha.chickendefender.listeners.SignListener;
+import com.nunofacha.chickendefender.updater.Updater;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
 public class Main extends JavaPlugin {
+    public static final String VERSION = "0.0.3";
     public static Plugin plugin;
     public static Logger logger;
     public static ArenaManager arenaManager;
@@ -50,6 +54,33 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new SignListener(), this);
         getCommand("chickenjoin").setExecutor(new ChickenJoinCommand());
         getCommand("chickenset").setExecutor(new ChickenSetCommand());
+        Metrics metrics = new Metrics(this, 10121);
+        if(metrics.isEnabled()){
+            Main.logger.info("Statistics loaded!");
+        }
+        try {
+            if(getConfig().getInt("config-version") == 1){
+                getConfig().set("config-version", 2);
+                getConfig().set("dev-versions", false);
+                getConfig().save(Main.plugin.getDataFolder()+"/config.yml");
+                Main.logger.info("Config version updated to 2");
+            }
+
+
+            if(getConfig().getBoolean("auto-update", true)){
+                if(getConfig().getBoolean("dev-versions")){
+                    Main.logger.warning("Using DEV update channel!");
+                    Updater updater = new Updater("https://raw.githubusercontent.com/nfacha/ChickenDefender/dev/meta.json");
+                }else{
+                    Updater updater = new Updater("https://raw.githubusercontent.com/nfacha/ChickenDefender/master/meta.json");
+                }
+            }else{
+                Main.logger.warning("Auto updating is disabled!");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

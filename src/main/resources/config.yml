@@ -1,4 +1,6 @@
-config-version: 1 #DONT CHANGE THIS!
+config-version: 2 #DONT CHANGE THIS!
+dev-versions: false
+auto-update: true
 lobby:
   x: 0
   y: 0
