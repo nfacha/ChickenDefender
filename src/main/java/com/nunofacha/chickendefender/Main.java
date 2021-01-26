@@ -39,7 +39,6 @@ public class Main extends JavaPlugin {
         logger.info("Config Version: " + getConfig().getInt("config-version"));
         arenaManager = new ArenaManager();
         scoreboard = this.getServer().getScoreboardManager().getNewScoreboard();
-//        scoreboard.registerNewObjective("Test", "Test", "Test");
         sbAttackTeam = scoreboard.registerNewTeam(ChatColor.RED+"cdAttack");
         sbAttackTeam.setColor(ChatColor.RED);
         sbAttackTeam.setPrefix(ChatColor.RED.toString());
@@ -65,6 +64,14 @@ public class Main extends JavaPlugin {
                 getConfig().set("update-channel", "master");
                 getConfig().save(Main.plugin.getDataFolder()+"/config.yml");
                 Main.logger.info("Config version updated to 2");
+            }
+            if(getConfig().getInt("config-version") == 2){
+                for (Arena arena : ArenaManager.getArenas()){
+                    getConfig().set(arena.getConfigPath()+".clear-inventory", true);
+                }
+                getConfig().set("config-version", 3);
+                getConfig().save(Main.plugin.getDataFolder()+"/config.yml");
+                Main.logger.info("Config version updated to 3");
             }
             if(getConfig().getBoolean("auto-update", true)){
                 Main.logger.info("Using the "+getConfig().getString("update-channel")+" update channel!");

@@ -1,4 +1,4 @@
-config-version: 2 #DONT CHANGE THIS!
+config-version: 3 #DONT CHANGE THIS!
 auto-update: true
 update-channel: master
 lobby:
@@ -10,6 +10,7 @@ arenas:
   0:
     name: chicken
     team-selection: false
+    clear-inventory: true
     countdown: 30
     chicken-health: 50
     player-lives: 3
