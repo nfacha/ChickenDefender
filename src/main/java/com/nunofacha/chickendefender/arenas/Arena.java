@@ -223,7 +223,9 @@ public class Arena {
         players.clear();
         attackingTeam.clear();
         defendingTeam.clear();
-        chicken.remove();
+        if(chicken != null){
+            chicken.remove();
+        }
         deathCount.clear();
         chicken = null;
         setState(GameState.RECRUITING);
