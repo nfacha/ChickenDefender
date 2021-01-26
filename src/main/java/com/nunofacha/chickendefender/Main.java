@@ -107,7 +107,8 @@ public class Main extends JavaPlugin {
                 getConfig().set("config-version", 3);
                 getConfig().save(Main.plugin.getDataFolder()+"/config.yml");
                 Main.logger.info("Config version updated to 3");
-            }        } catch (IOException e) {
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
