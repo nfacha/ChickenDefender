@@ -50,3 +50,14 @@ arenas:
         z: 0
         world: world
         enabled: false
+
+kits:
+  duck:
+    name: Kit de Teste
+    items:
+      0:
+        type: DIRT
+        name: Terra
+        enchantments:
+          - FIRE_ASPECT-1
+          - KNOCKBACK-1
