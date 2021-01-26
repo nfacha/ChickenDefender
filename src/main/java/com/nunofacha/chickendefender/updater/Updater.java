@@ -134,7 +134,7 @@ class HttpUtils {
 }
 public class Updater {
     String UPDATE_URL;
-    String CURRENT_VERSION = Main.VERSION;
+    String CURRENT_VERSION = Main.plugin.getDescription().getVersion();
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     public UpdateDataModel updateData;

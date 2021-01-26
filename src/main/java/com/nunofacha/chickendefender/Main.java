@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 public class Main extends JavaPlugin {
-    public static final String VERSION = "0.0.4";
     public static Plugin plugin;
     public static Logger logger;
     public static ArenaManager arenaManager;
