@@ -227,7 +227,9 @@ public class Arena {
                 p.teleport(attackingSpawn);
             }
             p.setScoreboard(Main.scoreboard);
-            Main.kits.get(playerKits.get(p.getUniqueId())).giveKit(p);
+            if (clearInventory) {
+                Main.kits.get(playerKits.get(p.getUniqueId())).giveKit(p);
+            }
         }
         this.setState(GameState.LIVE);
         //Chicken time
