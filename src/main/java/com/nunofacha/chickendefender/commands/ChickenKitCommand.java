@@ -30,6 +30,10 @@ public class ChickenKitCommand implements CommandExecutor {
             sender.sendMessage("Invalid kit!");
             return false;
         }
+        if (!arena.getClearInventory()) {
+            sender.sendMessage("Kits are not enabled for this arena");
+            return false;
+        }
         if (arena.playerKits.containsKey(p.getUniqueId())) {
             arena.playerKits.remove(p.getUniqueId());
         }

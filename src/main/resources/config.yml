@@ -52,12 +52,26 @@ arenas:
         enabled: false
 
 kits:
-  duck:
-    name: Kit de Teste
+  demo:
+    name: Demo Kit 1
     items:
       0:
-        type: DIRT
-        name: Terra
+        type: DIAMOND_SWORD
+        name: Cute Sword
+        amount: 1
         enchantments:
           - FIRE_ASPECT-1
-          - KNOCKBACK-1
+      1:
+        type: WOODEN_SWORD
+        name: Weak Sword
+        amount: 1
+        enchantments: [ ]
+  demo2:
+    name: Demo Kit 2
+    items:
+      0:
+        type: DIAMOND_AXE
+        name: Cute Axe
+        amount: 1
+        enchantments:
+          - FIRE_ASPECT-1

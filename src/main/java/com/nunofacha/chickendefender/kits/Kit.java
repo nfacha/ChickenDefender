@@ -18,7 +18,7 @@ public class Kit {
         items = new ArrayList<>();
         String configKey = "kits." + key;
         this.name = Main.plugin.getConfig().getString(configKey + ".name");
-//        Main.logger.info("Loading key " + key + " with name " + name);
+        Main.logger.info("Loading kit " + name);
         //noinspection ConstantConditions
         for (String itemKeyId : Main.plugin.getConfig().getConfigurationSection(configKey + ".items").getKeys(false)) {
 //            Main.logger.info("Loading item "+itemKeyId);
@@ -46,5 +46,6 @@ public class Kit {
             p.getInventory().addItem(itemStack);
         }
         Main.logger.info("Gave kit " + name + " to " + p.getName());
+
     }
 }

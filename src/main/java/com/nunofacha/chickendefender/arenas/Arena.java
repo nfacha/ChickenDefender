@@ -55,6 +55,7 @@ public class Arena {
     private ArrayList<UUID> defendingTeam = new ArrayList<>();
     public HashMap<UUID, String> playerKits = new HashMap<>();
     private String defaultKit;
+    private Boolean clearInventory;
 
     public Arena(int arenaId) {
         this.arenaId = arenaId;
@@ -75,6 +76,7 @@ public class Arena {
         this.chickenHealth = Main.plugin.getConfig().getInt(this.configPath + ".chicken-health");
         this.playerLives = Main.plugin.getConfig().getInt(this.configPath + ".player-lives");
         this.signEnabled = Main.plugin.getConfig().getBoolean(this.configPath + ".locations.sign.enabled");
+        this.clearInventory = Main.plugin.getConfig().getBoolean(this.configPath + ".clear-inventory");
         this.world = Main.plugin.getServer().getWorld(Main.plugin.getConfig().getString(this.configPath + ".locations.world"));
         this.lobbySpawn = new Location(this.world,
                 Main.plugin.getConfig().getInt(this.configPath + ".locations.spawns.lobby.x"),
@@ -148,16 +150,19 @@ public class Arena {
             countdown = new Countdown(this, countdownDuration);
             countdown.begin();
         }
-        playerInventory.put(p.getUniqueId(), p.getInventory().getContents());
-        p.getInventory().clear();
-        updateSign();
-        playerKits.put(p.getUniqueId(), defaultKit);
-        p.sendMessage(ChatColor.YELLOW + "You have been assigned the kit " + defaultKit);
-        p.sendMessage(ChatColor.YELLOW + "You can change your kit with /chickenkit <name>");
-        p.sendMessage(ChatColor.YELLOW + "The following kits are available:");
-        for (String kitName : Main.kits.keySet()) {
-            p.sendMessage(ChatColor.GOLD + "-> " + kitName);
+        if (clearInventory) {
+            playerInventory.put(p.getUniqueId(), p.getInventory().getContents());
+            Main.logger.info("Saved inventory of " + p.getName() + " with a total of " + playerInventory.get(p.getUniqueId()).length);
+            p.getInventory().clear();
+            playerKits.put(p.getUniqueId(), defaultKit);
+            p.sendMessage(ChatColor.YELLOW + "You have been assigned the kit " + defaultKit);
+            p.sendMessage(ChatColor.YELLOW + "You can change your kit with /chickenkit <name>");
+            p.sendMessage(ChatColor.YELLOW + "The following kits are available:");
+            for (String kitName : Main.kits.keySet()) {
+                p.sendMessage(ChatColor.GOLD + "-> " + kitName);
+            }
         }
+        updateSign();
 
     }
 
@@ -184,11 +189,15 @@ public class Arena {
         p.sendMessage("You left the arena");
         sendMessageToAll("§r§4[-] §r " + p.getName());
         updateSign();
-        if (playerInventory.containsKey(p.getUniqueId())) {
-            p.getInventory().setContents(playerInventory.get(p.getUniqueId()));
+        if (clearInventory) {
+            p.getInventory().clear();
+            if (playerInventory.containsKey(p.getUniqueId())) {
+                Main.logger.info("Returning inventory of " + p.getName() + " with a total of " + playerInventory.get(p.getUniqueId()).length);
+                p.getInventory().setContents(playerInventory.get(p.getUniqueId()));
+            }
             playerInventory.remove(p.getUniqueId());
+            playerKits.remove(p.getUniqueId());
         }
-        playerKits.remove(p.getUniqueId());
     }
 
     public GameState getState() {
@@ -358,5 +367,9 @@ public class Arena {
 
     public Location getSignLocation() {
         return signLocation;
+    }
+
+    public Boolean getClearInventory() {
+        return clearInventory;
     }
 }
