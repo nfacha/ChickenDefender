@@ -6,6 +6,7 @@ import com.nunofacha.chickendefender.arenas.game.GameState;
 import com.nunofacha.chickendefender.commands.ChickenJoinCommand;
 import com.nunofacha.chickendefender.commands.ChickenLeaveCommand;
 import com.nunofacha.chickendefender.commands.ChickenSetCommand;
+import com.nunofacha.chickendefender.kits.Kit;
 import com.nunofacha.chickendefender.listeners.GlobalListener;
 import com.nunofacha.chickendefender.listeners.SignListener;
 import com.nunofacha.chickendefender.updater.Updater;
@@ -17,6 +18,8 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Set;
 import java.util.logging.Logger;
 
 public class Main extends JavaPlugin {
@@ -26,6 +29,7 @@ public class Main extends JavaPlugin {
     public static Scoreboard scoreboard;
     public static Team sbAttackTeam;
     public static Team sbDefendTeam;
+    public static HashMap<String, Kit> kits = new HashMap<>();
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -42,6 +46,7 @@ public class Main extends JavaPlugin {
         registerEvents();
         registerCommands();
         updateCheck();
+        initKits();
         Metrics metrics = new Metrics(this, 10121);
         if(metrics.isEnabled()){
             Main.logger.info("Statistics loaded!");
@@ -119,6 +124,14 @@ public class Main extends JavaPlugin {
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void initKits(){
+        kits.clear();
+        Set<String> kitNames = getConfig().getConfigurationSection("kits").getKeys(false);
+        for (String kitName : kitNames) {
+            kits.put(kitName, new Kit(kitName));
         }
     }
 
