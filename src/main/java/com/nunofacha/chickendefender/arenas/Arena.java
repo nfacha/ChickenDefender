@@ -247,10 +247,11 @@ public class Arena {
     public void finish() {
         for (UUID uuid : players) {
             Player p = Main.plugin.getServer().getPlayer(uuid);
-            p.teleport(Main.arenaManager.getLobbyLocation());
-            Main.sbDefendTeam.removeEntry(p.getName());
-            Main.sbAttackTeam.removeEntry(p.getName());
-            p.removePotionEffect(PotionEffectType.GLOWING);
+//            p.teleport(Main.arenaManager.getLobbyLocation());
+//            Main.sbDefendTeam.removeEntry(p.getName());
+//            Main.sbAttackTeam.removeEntry(p.getName());
+//            p.removePotionEffect(PotionEffectType.GLOWING);
+            removePlayer(p);
         }
         players.clear();
         attackingTeam.clear();
