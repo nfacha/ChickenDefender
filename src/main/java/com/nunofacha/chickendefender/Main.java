@@ -38,6 +38,31 @@ public class Main extends JavaPlugin {
         saveDefaultConfig();
         logger.info("Config Version: " + getConfig().getInt("config-version"));
         arenaManager = new ArenaManager();
+        initScoreboard();
+        registerEvents();
+        registerCommands();
+        updateCheck();
+        Metrics metrics = new Metrics(this, 10121);
+        if(metrics.isEnabled()){
+            Main.logger.info("Statistics loaded!");
+        }
+        updateConfig();
+
+    }
+
+    @Override
+    public void onDisable() {
+        for (Arena arena :
+                ArenaManager.getArenas()) {
+            if (arena.getState() == GameState.LIVE) {
+                arena.finish();
+            }
+        }
+
+
+    }
+
+    private void initScoreboard(){
         scoreboard = this.getServer().getScoreboardManager().getNewScoreboard();
         sbAttackTeam = scoreboard.registerNewTeam(ChatColor.RED+"cdAttack");
         sbAttackTeam.setColor(ChatColor.RED);
@@ -49,15 +74,20 @@ public class Main extends JavaPlugin {
         sbDefendTeam.setPrefix(ChatColor.GREEN.toString());
         sbDefendTeam.setSuffix(ChatColor.GREEN.toString());
         sbDefendTeam.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
+    }
+
+    private void registerEvents(){
         getServer().getPluginManager().registerEvents(new GlobalListener(), this);
         getServer().getPluginManager().registerEvents(new SignListener(), this);
+    }
+
+    private void registerCommands(){
         getCommand("chickenjoin").setExecutor(new ChickenJoinCommand());
         getCommand("chickenset").setExecutor(new ChickenSetCommand());
         getCommand("chickenleave").setExecutor(new ChickenLeaveCommand());
-        Metrics metrics = new Metrics(this, 10121);
-        if(metrics.isEnabled()){
-            Main.logger.info("Statistics loaded!");
-        }
+    }
+
+    private void updateConfig(){
         try {
             if(getConfig().getInt("config-version") == 1){
                 getConfig().set("config-version", 2);
@@ -72,7 +102,14 @@ public class Main extends JavaPlugin {
                 getConfig().set("config-version", 3);
                 getConfig().save(Main.plugin.getDataFolder()+"/config.yml");
                 Main.logger.info("Config version updated to 3");
-            }
+            }        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateCheck(){
+        try {
+
             if(getConfig().getBoolean("auto-update", true)){
                 Main.logger.info("Using the "+getConfig().getString("update-channel")+" update channel!");
                 Updater updater = new Updater("https://raw.githubusercontent.com/nfacha/ChickenDefender/"+getConfig().getString("update-channel")+"/meta.json");
@@ -85,15 +122,4 @@ public class Main extends JavaPlugin {
         }
     }
 
-    @Override
-    public void onDisable() {
-        for (Arena arena :
-                ArenaManager.getArenas()) {
-            if (arena.getState() == GameState.LIVE) {
-                arena.finish();
-            }
-        }
-
-
-    }
 }
