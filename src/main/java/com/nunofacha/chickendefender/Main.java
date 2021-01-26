@@ -60,7 +60,7 @@ public class Main extends JavaPlugin {
         }
         try {
             if(getConfig().getInt("config-version") == 1){
-                getConfig().set("config-version", 2);
+                getConfig().set("config-versions", 2);
                 getConfig().set("dev-versions", false);
                 getConfig().save(Main.plugin.getDataFolder()+"/config.yml");
                 Main.logger.info("Config version updated to 2");
