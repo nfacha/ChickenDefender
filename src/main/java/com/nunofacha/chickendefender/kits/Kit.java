@@ -4,18 +4,20 @@ import com.nunofacha.chickendefender.Main;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 
 public class Kit {
     private ArrayList<ItemStack> items;
-    private String name;
+    private final String name;
 
     public Kit(String key) {
         String configKey = "kits." + key;
         this.name = Main.plugin.getConfig().getString(configKey + ".name");
         Main.logger.info("Loading key " + key + " with name " + name);
+        //noinspection ConstantConditions
         for (String itemKeyId : Main.plugin.getConfig().getConfigurationSection(configKey + ".items").getKeys(false)) {
 //            Main.logger.info("Loading item "+itemKeyId);
             String itemKey = configKey + ".items." + itemKeyId;
@@ -35,5 +37,12 @@ public class Kit {
             }
             items.add(itemStack);
         }
+    }
+
+    public void giveKit(Player p) {
+        for (ItemStack itemStack : items) {
+            p.getInventory().addItem(itemStack);
+        }
+        Main.logger.info("Gave kit " + name + " to " + p.getName());
     }
 }
