@@ -11,6 +11,7 @@ arenas:
     name: chicken
     team-selection: false
     clear-inventory: true
+    default-kit: demo
     countdown: 30
     chicken-health: 50
     player-lives: 3
