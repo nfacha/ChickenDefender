@@ -3,6 +3,6 @@
   "active_development": true,
   "current_version": "0.0.2",
   "last_update": "2021-01-26",
-  "update_location": "https://github.com/nfacha/ChickenDefender/blob/dev/meta.json",
+  "update_location": "https://raw.githubusercontent.com/nfacha/ChickenDefender/dev/meta.json",
   "download_location": "https://fmcs-public.s3.fr-par.scw.cloud/ChickenDefender.jar"
 }

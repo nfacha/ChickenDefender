@@ -130,20 +130,16 @@ class HttpUtils {
             httpConn.disconnect();
         }
     }
+
 }
-
 public class Updater {
-    final String UPDATE_URL = "https://github.com/nfacha/ChickenDefender/blob/dev/meta.json";
-    String CURRENT_VERSION;
+    final String UPDATE_URL = "https://raw.githubusercontent.com/nfacha/ChickenDefender/dev/meta.json";
+    String CURRENT_VERSION = Main.VERSION;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
     public UpdateDataModel updateData;
 
     public Updater() throws IOException {
-        Properties mavenProps = new Properties();
-        InputStream in = Updater.class.getResourceAsStream("/maven.properties");
-        mavenProps.load(in);
-        CURRENT_VERSION = mavenProps.getProperty("project.version");
         Main.logger.info("Starting update check!");
         Main.logger.info("Current version: "+CURRENT_VERSION);
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
