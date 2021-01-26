@@ -53,6 +53,8 @@ public class Arena {
     private Chicken chicken;
     private ArrayList<UUID> attackingTeam = new ArrayList<>();
     private ArrayList<UUID> defendingTeam = new ArrayList<>();
+    public HashMap<UUID, String> playerKits = new HashMap<>();
+    private String defaultKit;
 
     public Arena(int arenaId) {
         this.arenaId = arenaId;
@@ -65,6 +67,7 @@ public class Arena {
     public void loadConfig() {
         //Load config
         this.name = Main.plugin.getConfig().getString(this.configPath + ".name");
+        this.defaultKit = Main.plugin.getConfig().getString(this.configPath + ".default-kit");
         this.teamSelection = Main.plugin.getConfig().getBoolean(this.configPath + ".team-selection");
         this.minPlayers = Main.plugin.getConfig().getInt(this.configPath + ".players.min");
         this.maxPlayers = Main.plugin.getConfig().getInt(this.configPath + ".players.max");
@@ -148,6 +151,14 @@ public class Arena {
         playerInventory.put(p.getUniqueId(), p.getInventory().getContents());
         p.getInventory().clear();
         updateSign();
+        playerKits.put(p.getUniqueId(), defaultKit);
+        p.sendMessage(ChatColor.YELLOW + "You have been assigned the kit " + defaultKit);
+        p.sendMessage(ChatColor.YELLOW + "You can change your kit with /chickenkit <name>");
+        p.sendMessage(ChatColor.YELLOW + "The following kits are available:");
+        for (String kitName : Main.kits.keySet()) {
+            p.sendMessage(ChatColor.GOLD + "-> " + kitName);
+        }
+
     }
 
     public void removePlayer(Player p) {
@@ -177,6 +188,7 @@ public class Arena {
             p.getInventory().setContents(playerInventory.get(p.getUniqueId()));
             playerInventory.remove(p.getUniqueId());
         }
+        playerKits.remove(p.getUniqueId());
     }
 
     public GameState getState() {
@@ -231,6 +243,8 @@ public class Arena {
         players.clear();
         attackingTeam.clear();
         defendingTeam.clear();
+        playerKits.clear();
+        playerInventory.clear();
         if (chicken != null) {
             chicken.remove();
         }

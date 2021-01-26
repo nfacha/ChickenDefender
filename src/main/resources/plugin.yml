@@ -12,4 +12,6 @@ commands:
   chickenset:
     description: Joins an arena
   chickenleave:
-    description: Joins an arena
+    description: Leaves an arena
+  chickenkit:
+    description: Picks a kit

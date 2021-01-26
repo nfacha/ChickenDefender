@@ -4,6 +4,7 @@ import com.nunofacha.chickendefender.arenas.Arena;
 import com.nunofacha.chickendefender.arenas.ArenaManager;
 import com.nunofacha.chickendefender.arenas.game.GameState;
 import com.nunofacha.chickendefender.commands.ChickenJoinCommand;
+import com.nunofacha.chickendefender.commands.ChickenKitCommand;
 import com.nunofacha.chickendefender.commands.ChickenLeaveCommand;
 import com.nunofacha.chickendefender.commands.ChickenSetCommand;
 import com.nunofacha.chickendefender.kits.Kit;
@@ -90,6 +91,7 @@ public class Main extends JavaPlugin {
         getCommand("chickenjoin").setExecutor(new ChickenJoinCommand());
         getCommand("chickenset").setExecutor(new ChickenSetCommand());
         getCommand("chickenleave").setExecutor(new ChickenLeaveCommand());
+        getCommand("chickenkit").setExecutor(new ChickenKitCommand());
     }
 
     private void updateConfig() {
