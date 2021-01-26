@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 public class Main extends JavaPlugin {
-    public static final String VERSION = "0.0.3";
+    public static final String VERSION = "0.0.4";
     public static Plugin plugin;
     public static Logger logger;
     public static ArenaManager arenaManager;
@@ -61,21 +61,15 @@ public class Main extends JavaPlugin {
         try {
             if(getConfig().getInt("config-version") == 1){
                 getConfig().set("config-version", 2);
-                getConfig().set("dev-versions", false);
+                getConfig().set("update-channel", "master");
                 getConfig().save(Main.plugin.getDataFolder()+"/config.yml");
                 Main.logger.info("Config version updated to 2");
             }
-
-
             if(getConfig().getBoolean("auto-update", true)){
-                if(getConfig().getBoolean("dev-versions")){
-                    Main.logger.warning("Using DEV update channel!");
-                    Updater updater = new Updater("https://raw.githubusercontent.com/nfacha/ChickenDefender/dev/meta.json");
-                }else{
-                    Updater updater = new Updater("https://raw.githubusercontent.com/nfacha/ChickenDefender/master/meta.json");
-                }
+                Main.logger.info("Using the "+getConfig().getString("update-channel")+" update channel!");
+                Updater updater = new Updater("https://raw.githubusercontent.com/nfacha/ChickenDefender/"+getConfig().getString("update-channel")+"/meta.json");
             }else{
-                Main.logger.warning("Auto updating is disabled!");
+                Main.logger.info("Auto updating is disabled!");
             }
 
         } catch (IOException e) {

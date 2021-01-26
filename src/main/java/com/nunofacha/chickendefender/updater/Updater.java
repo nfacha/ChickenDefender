@@ -147,6 +147,8 @@ public class Updater {
         if(hasNewVersion()){
             Main.logger.info("There is a new update!");
             downloadUpdate();
+        }else{
+            Main.logger.info("You are using the latest version");
         }
     }
 
