@@ -152,7 +152,7 @@ public class Arena {
         }
         if (clearInventory) {
             playerInventory.put(p.getUniqueId(), p.getInventory().getContents());
-            Main.logger.info("Saved inventory of " + p.getName() + " with a total of " + playerInventory.get(p.getUniqueId()).length);
+            Main.logger.info("Saved inventory of " + p.getName());
             p.getInventory().clear();
             playerKits.put(p.getUniqueId(), defaultKit);
             p.sendMessage(ChatColor.YELLOW + "You have been assigned the kit " + defaultKit);
@@ -167,6 +167,15 @@ public class Arena {
     }
 
     public void removePlayer(Player p) {
+        if (clearInventory) {
+            p.getInventory().clear();
+            if (playerInventory.containsKey(p.getUniqueId())) {
+                Main.logger.info("Returning inventory of " + p.getName());
+                p.getInventory().setContents(playerInventory.get(p.getUniqueId()));
+            }
+            playerInventory.remove(p.getUniqueId());
+            playerKits.remove(p.getUniqueId());
+        }
         if (getTeam(p) == Team.DEFENDING) {
             defendingTeam.remove(p.getUniqueId());
             players.remove(p.getUniqueId());
@@ -189,15 +198,6 @@ public class Arena {
         p.sendMessage("You left the arena");
         sendMessageToAll("§r§4[-] §r " + p.getName());
         updateSign();
-        if (clearInventory) {
-            p.getInventory().clear();
-            if (playerInventory.containsKey(p.getUniqueId())) {
-                Main.logger.info("Returning inventory of " + p.getName() + " with a total of " + playerInventory.get(p.getUniqueId()).length);
-                p.getInventory().setContents(playerInventory.get(p.getUniqueId()));
-            }
-            playerInventory.remove(p.getUniqueId());
-            playerKits.remove(p.getUniqueId());
-        }
     }
 
     public GameState getState() {
