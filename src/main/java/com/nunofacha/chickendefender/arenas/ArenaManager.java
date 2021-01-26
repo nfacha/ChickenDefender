@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class ArenaManager {
     private static ArrayList<Arena> arenas = new ArrayList<>();
     private Location lobbyLocation;
+
     public ArenaManager() {
         //Initialize Arenas
         int totalArenas = getArenaCount();
@@ -19,7 +20,11 @@ public class ArenaManager {
         loadConfig();
     }
 
-    public void loadConfig(){
+    public static ArrayList<Arena> getArenas() {
+        return arenas;
+    }
+
+    public void loadConfig() {
         //noinspection ConstantConditions
         this.lobbyLocation = new Location(
                 Main.plugin.getServer().getWorld(Main.plugin.getConfig().getString("lobby.world")),
@@ -28,12 +33,9 @@ public class ArenaManager {
                 Main.plugin.getConfig().getInt("lobby.z")
         );
     }
+
     private int getArenaCount() {
         return Main.plugin.getConfig().getConfigurationSection("arenas").getKeys(false).size();
-    }
-
-    public static ArrayList<Arena> getArenas() {
-        return arenas;
     }
 
     public boolean isPlaying(Player p) {

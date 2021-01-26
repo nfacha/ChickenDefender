@@ -13,15 +13,15 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class SignListener implements Listener {
 
     @EventHandler
-    public void onSignClick(PlayerInteractEvent e){
+    public void onSignClick(PlayerInteractEvent e) {
         Block block = e.getClickedBlock();
-        if(block == null){
+        if (block == null) {
             return;
         }
-        if(block.getType().toString().contains("WALL_SIGN")){
+        if (block.getType().toString().contains("WALL_SIGN")) {
             Main.logger.info("Clicked sign");
             Sign sign = (Sign) block.getState();
-            if(sign.getLine(0).contains("CHICKEN-DEF")){
+            if (sign.getLine(0).contains("CHICKEN-DEF")) {
                 Main.logger.info("Clicked chicken-def");
                 Arena arena = Main.arenaManager.getArena(Integer.parseInt(sign.getLine(1)));
                 Player p = e.getPlayer();

@@ -24,16 +24,16 @@ public class Countdown extends BukkitRunnable {
         if (this.seconds == 0) {
             cancel();
             this.
-            arena.start();
+                    arena.start();
         }
         if (seconds % 30 == 0 || seconds <= 10) {
-            arena.sendMessageToAll(ChatColor.GREEN+"The game will start in " + seconds + " seconds!");
+            arena.sendMessageToAll(ChatColor.GREEN + "The game will start in " + seconds + " seconds!");
         }
         if (arena.getPlayers().size() < arena.getMinPlayers()) {
             cancel();
             arena.setState(GameState.RECRUITING);
             Main.logger.info("Start canceled due to insufficient players for arena " + arena.getName());
-            arena.sendMessageToAll(ChatColor.RED+"Too few player, countdown canceled while we wait for more players");
+            arena.sendMessageToAll(ChatColor.RED + "Too few player, countdown canceled while we wait for more players");
         }
         seconds--;
     }

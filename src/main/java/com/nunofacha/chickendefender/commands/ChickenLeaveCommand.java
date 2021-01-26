@@ -12,7 +12,7 @@ public class ChickenLeaveCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player p = (Player) sender;
         Arena arena = Main.arenaManager.getArena(p);
-        if(arena == null){
+        if (arena == null) {
             sender.sendMessage("You are not in an arena!");
             return false;
         }

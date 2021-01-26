@@ -1,4 +1,5 @@
 package com.nunofacha.chickendefender.updater;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nunofacha.chickendefender.Main;
@@ -8,7 +9,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 class UpdateDataModel {
     public String name;
@@ -20,6 +20,7 @@ class UpdateDataModel {
     public String operator_message;
 
 }
+
 @SuppressWarnings("ALL")
 class HttpUtils {
 
@@ -132,22 +133,22 @@ class HttpUtils {
     }
 
 }
-public class Updater {
-    String UPDATE_URL;
-    String CURRENT_VERSION = Main.plugin.getDescription().getVersion();
 
+public class Updater {
     private final ObjectMapper objectMapper = new ObjectMapper();
     public UpdateDataModel updateData;
+    String UPDATE_URL;
+    String CURRENT_VERSION = Main.plugin.getDescription().getVersion();
 
     public Updater(String updateUrl) throws IOException {
         UPDATE_URL = updateUrl;
         Main.logger.info("Starting update check!");
-        Main.logger.info("Current version: "+CURRENT_VERSION);
+        Main.logger.info("Current version: " + CURRENT_VERSION);
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        if(hasNewVersion()){
+        if (hasNewVersion()) {
             Main.logger.info("There is a new update!");
             downloadUpdate();
-        }else{
+        } else {
             Main.logger.info("You are using the latest version");
         }
     }
