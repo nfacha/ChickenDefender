@@ -16,10 +16,10 @@ public class ChickenJoinCommand implements CommandExecutor {
             return false;
         }
         Player p = (Player) sender;
-        try{
+        try {
             int arenaId = Integer.parseInt(args[0]);
             Arena arena = Main.arenaManager.getArena(arenaId);
-            if(arena == null){
+            if (arena == null) {
                 sender.sendMessage("Invalid arena");
                 return false;
             }
@@ -32,7 +32,7 @@ public class ChickenJoinCommand implements CommandExecutor {
                 return false;
             }
             arena.addPlayer(p);
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             sender.sendMessage("Invalid arena");
             return false;
         }
