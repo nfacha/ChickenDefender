@@ -39,7 +39,6 @@ public class Main extends JavaPlugin {
         plugin = this;
         logger = getLogger();
         logger.info("Plugin is starting");
-        this.getConfig().options().copyDefaults(true);
         saveDefaultConfig();
         logger.info("Config Version: " + getConfig().getInt("config-version"));
         arenaManager = new ArenaManager();
