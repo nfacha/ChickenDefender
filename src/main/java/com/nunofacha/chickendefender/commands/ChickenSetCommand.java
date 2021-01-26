@@ -13,6 +13,10 @@ import java.io.IOException;
 public class ChickenSetCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (!sender.hasPermission("chickendefender.set")) {
+            sender.sendMessage("No permission");
+            return false;
+        }
         if (args.length < 1) {
             sender.sendMessage("Usage: /chickenset lobby/arena");
             return false;
