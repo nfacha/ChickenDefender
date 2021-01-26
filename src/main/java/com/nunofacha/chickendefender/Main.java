@@ -4,6 +4,7 @@ import com.nunofacha.chickendefender.arenas.Arena;
 import com.nunofacha.chickendefender.arenas.ArenaManager;
 import com.nunofacha.chickendefender.arenas.game.GameState;
 import com.nunofacha.chickendefender.commands.ChickenJoinCommand;
+import com.nunofacha.chickendefender.commands.ChickenLeaveCommand;
 import com.nunofacha.chickendefender.commands.ChickenSetCommand;
 import com.nunofacha.chickendefender.listeners.GlobalListener;
 import com.nunofacha.chickendefender.listeners.SignListener;
@@ -53,6 +54,7 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new SignListener(), this);
         getCommand("chickenjoin").setExecutor(new ChickenJoinCommand());
         getCommand("chickenset").setExecutor(new ChickenSetCommand());
+        getCommand("chickenleave").setExecutor(new ChickenLeaveCommand());
         Metrics metrics = new Metrics(this, 10121);
         if(metrics.isEnabled()){
             Main.logger.info("Statistics loaded!");
