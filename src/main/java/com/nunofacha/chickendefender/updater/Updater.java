@@ -133,13 +133,14 @@ class HttpUtils {
 
 }
 public class Updater {
-    final String UPDATE_URL = "https://raw.githubusercontent.com/nfacha/ChickenDefender/dev/meta.json";
+    String UPDATE_URL;
     String CURRENT_VERSION = Main.VERSION;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     public UpdateDataModel updateData;
 
-    public Updater() throws IOException {
+    public Updater(String updateUrl) throws IOException {
+        UPDATE_URL = updateUrl;
         Main.logger.info("Starting update check!");
         Main.logger.info("Current version: "+CURRENT_VERSION);
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
