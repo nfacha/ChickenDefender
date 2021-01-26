@@ -8,15 +8,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Kit {
     private ArrayList<ItemStack> items;
     private final String name;
 
     public Kit(String key) {
+        items = new ArrayList<>();
         String configKey = "kits." + key;
         this.name = Main.plugin.getConfig().getString(configKey + ".name");
-        Main.logger.info("Loading key " + key + " with name " + name);
+//        Main.logger.info("Loading key " + key + " with name " + name);
         //noinspection ConstantConditions
         for (String itemKeyId : Main.plugin.getConfig().getConfigurationSection(configKey + ".items").getKeys(false)) {
 //            Main.logger.info("Loading item "+itemKeyId);
@@ -33,7 +35,7 @@ public class Kit {
                     enchantmentLevel = Integer.parseInt(enchantmentData[1]);
                 }
                 //noinspection ConstantConditions
-                itemStack.addEnchantment(Enchantment.getByKey(NamespacedKey.minecraft(enchantmentData[0])), enchantmentLevel);
+                itemStack.addUnsafeEnchantment(Enchantment.getByKey(NamespacedKey.minecraft(enchantmentData[0].toLowerCase(Locale.ROOT))), enchantmentLevel);
             }
             items.add(itemStack);
         }
