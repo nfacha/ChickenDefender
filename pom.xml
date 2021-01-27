@@ -6,7 +6,7 @@
 
     <groupId>com.nunofacha</groupId>
     <artifactId>chickendefender</artifactId>
-    <version>0.0.7</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <name>ChickenDefender</name>

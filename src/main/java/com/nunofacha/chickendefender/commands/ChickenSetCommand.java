@@ -41,8 +41,7 @@ public class ChickenSetCommand implements CommandExecutor {
                 sender.sendMessage("Usage: /chickenset arena ID OPTION");
                 return false;
             }
-            int arenaId = Integer.parseInt(args[1]);
-            Arena arena = Main.arenaManager.getArena(arenaId);
+            Arena arena = Main.arenaManager.getArena(args[1]);
             if (arena == null) {
                 sender.sendMessage("Invalid arena");
                 return false;

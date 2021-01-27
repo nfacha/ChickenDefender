@@ -32,7 +32,7 @@ public class Countdown extends BukkitRunnable {
         if (arena.getPlayers().size() < arena.getMinPlayers()) {
             cancel();
             arena.setState(GameState.RECRUITING);
-            Main.logger.info("Start canceled due to insufficient players for arena " + arena.getName());
+            Main.logger.info("Start canceled due to insufficient players for arena " + arena.getArenaId());
             arena.sendMessageToAll(ChatColor.RED + "Too few player, countdown canceled while we wait for more players");
         }
         seconds--;

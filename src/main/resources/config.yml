@@ -6,9 +6,8 @@ lobby: #General Lobby location, this is where players are teleported after the g
   y: 0
   z: 0
   world: world
-arenas: #Config for each arenas, to add a new arena just duplicate the default item and increase its name by one (so your first additional arena would be named 0)
-  0:
-    name: chicken #Arena name, indicative only
+arenas: #Config for each arenas, to add a new arena just duplicate the default item and give it a different name
+  myarena:
     clear-inventory: true #Clear player inventory on join? (item are returned on leave) - Kits are not available if disabled
     default-kit: demo #Default kit given on join
     countdown: 30 #How long is the countdown after we have enough players?

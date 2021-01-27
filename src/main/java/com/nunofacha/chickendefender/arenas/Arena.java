@@ -25,11 +25,10 @@ import java.util.UUID;
 
 @SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal", "ConstantConditions"})
 public class Arena {
-    private final int arenaId;
+    private final String arenaId;
     private final String configPath;
     public HashMap<UUID, Integer> deathCount = new HashMap<>();
     public HashMap<UUID, ItemStack[]> playerInventory = new HashMap<>();
-    private String name;
     private boolean teamSelection;
     private int minPlayers;
     private int maxPlayers;
@@ -57,7 +56,7 @@ public class Arena {
     private String defaultKit;
     private Boolean clearInventory;
 
-    public Arena(int arenaId) {
+    public Arena(String arenaId) {
         this.arenaId = arenaId;
         this.configPath = "arenas." + arenaId;
         //Load config
@@ -67,7 +66,6 @@ public class Arena {
 
     public void loadConfig() {
         //Load config
-        this.name = Main.plugin.getConfig().getString(this.configPath + ".name");
         this.defaultKit = Main.plugin.getConfig().getString(this.configPath + ".default-kit");
         this.teamSelection = Main.plugin.getConfig().getBoolean(this.configPath + ".team-selection");
         this.minPlayers = Main.plugin.getConfig().getInt(this.configPath + ".players.min");
@@ -121,7 +119,7 @@ public class Arena {
         minVector = new Vector(xPos1, yPos1, zPos1);
         maxVector = new Vector(xPos2, yPos2, zPos2);
         state = GameState.RECRUITING;
-        Main.logger.info("Arena " + this.name + " was loaded with ID " + arenaId);
+        Main.logger.info("Arena " + this.arenaId + " was loaded with ID " + arenaId);
         updateSign();
     }
 
@@ -129,13 +127,10 @@ public class Arena {
         return location.toVector().isInAABB(minVector, maxVector);
     }
 
-    public int getArenaId() {
+    public String getArenaId() {
         return arenaId;
     }
 
-    public String getName() {
-        return name;
-    }
 
     public ArrayList<UUID> getPlayers() {
         return players;
@@ -346,7 +341,7 @@ public class Arena {
         if (signEnabled) {
             Block block = signLocation.getBlock();
             if (!block.getType().toString().contains("WALL_SIGN")) {
-                Main.logger.severe("Unable to set arena sign, invalid block for arena " + name + " expected sign found " + block.getType().toString());
+                Main.logger.severe("Unable to set arena sign, invalid block for arena " + arenaId + " expected sign found " + block.getType().toString());
                 return;
             }
             Sign sign = (Sign) block.getState();
