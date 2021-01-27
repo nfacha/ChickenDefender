@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class ArenaManager {
     private static ArrayList<Arena> arenas = new ArrayList<>();
@@ -14,8 +15,9 @@ public class ArenaManager {
         //Initialize Arenas
         int totalArenas = getArenaCount();
         Main.logger.info("Arena count: " + totalArenas);
-        for (int i = 0; i < totalArenas; i++) {
-            arenas.add(new Arena(i));
+        Set<String> arenaNames = Main.plugin.getConfig().getConfigurationSection("arenas").getKeys(false);
+        for (String arena : arenaNames) {
+            arenas.add(new Arena(String.valueOf(arena)));
         }
         loadConfig();
     }
@@ -56,9 +58,9 @@ public class ArenaManager {
         return null;
     }
 
-    public Arena getArena(int id) {
+    public Arena getArena(String id) {
         for (Arena arena : arenas) {
-            if (arena.getArenaId() == id) {
+            if (arena.getArenaId().equals(id)) {
                 return arena;
             }
         }

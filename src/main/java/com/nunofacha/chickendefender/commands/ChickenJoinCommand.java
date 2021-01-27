@@ -17,8 +17,7 @@ public class ChickenJoinCommand implements CommandExecutor {
         }
         Player p = (Player) sender;
         try {
-            int arenaId = Integer.parseInt(args[0]);
-            Arena arena = Main.arenaManager.getArena(arenaId);
+            Arena arena = Main.arenaManager.getArena(args[0]);
             if (arena == null) {
                 sender.sendMessage("Invalid arena");
                 return false;
