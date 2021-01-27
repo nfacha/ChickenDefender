@@ -75,6 +75,9 @@ public class GlobalListener implements Listener {
                     } else {
                         p.teleport(arena.getAttackingSpawn());
                     }
+                    if (arena.getClearInventory()) {
+                        Main.kits.get(arena.playerKits.get(p.getUniqueId())).giveKit(p);
+                    }
                 }
             }, 1);
 
