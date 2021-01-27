@@ -21,6 +21,7 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.UUID;
 
 @SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal", "ConstantConditions"})
@@ -162,6 +163,10 @@ public class Arena {
     }
 
     public void removePlayer(Player p) {
+        removePlayer(p, null);
+    }
+
+    public void removePlayer(Player p, Iterator<UUID> iterator) {
         if (clearInventory) {
             p.getInventory().clear();
             if (playerInventory.containsKey(p.getUniqueId())) {
@@ -173,14 +178,24 @@ public class Arena {
         }
         if (getTeam(p) == Team.DEFENDING) {
             defendingTeam.remove(p.getUniqueId());
-            players.remove(p.getUniqueId());
+            if (iterator == null) {
+                players.remove(p.getUniqueId());
+            } else {
+                iterator.remove();
+            }
+
             if (defendingTeam.size() == 0) {
                 sendMessageToAll("All defending players have been eliminated, attacking team wins");
                 finish();
             }
         } else {
             attackingTeam.remove(p.getUniqueId());
-            players.remove(p.getUniqueId());
+            if (iterator == null) {
+                players.remove(p.getUniqueId());
+            } else {
+                iterator.remove();
+            }
+
             if (attackingTeam.size() == 0) {
                 sendMessageToAll("All attacking players have been eliminated, defending team wins");
                 finish();
@@ -210,8 +225,10 @@ public class Arena {
             if ((!defendingTeam.contains(uuid) && !attackingTeam.contains(uuid))) {
                 if (defendingTeam.size() <= attackingTeam.size()) {
                     setPlayerTeam(p, Team.DEFENDING);
+//                    setPlayerTeam(p, Team.ATTACKING);
                 } else {
                     setPlayerTeam(p, Team.ATTACKING);
+//                    setPlayerTeam(p, Team.DEFENDING);
                 }
             }
 
@@ -240,13 +257,11 @@ public class Arena {
     }
 
     public void finish() {
-        for (UUID uuid : players) {
+        Iterator<UUID> iterator = players.iterator();
+        while (iterator.hasNext()) {
+            UUID uuid = iterator.next();
             Player p = Main.plugin.getServer().getPlayer(uuid);
-//            p.teleport(Main.arenaManager.getLobbyLocation());
-//            Main.sbDefendTeam.removeEntry(p.getName());
-//            Main.sbAttackTeam.removeEntry(p.getName());
-//            p.removePotionEffect(PotionEffectType.GLOWING);
-            removePlayer(p);
+            removePlayer(p, iterator);
         }
         players.clear();
         attackingTeam.clear();
