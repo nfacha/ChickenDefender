@@ -49,6 +49,7 @@ public class GlobalListener implements Listener {
     public void onPlayerDeath(PlayerDeathEvent e) {
         Player p = e.getEntity();
         if (Main.arenaManager.isPlaying(p)) {
+            e.getDrops().removeIf(itemStack -> true);
             Main.plugin.getServer().getScheduler().runTaskLater(Main.plugin, new Runnable() {
                 @Override
                 public void run() {
@@ -79,7 +80,6 @@ public class GlobalListener implements Listener {
                     } else {
                         p.teleport(arena.getAttackingSpawn());
                     }
-                    e.getDrops().removeIf(itemStack -> true);
                     if (arena.getClearInventory()) {
                         Main.kits.get(arena.playerKits.get(p.getUniqueId())).giveKit(p);
                         if (arena.getTeamHelmet()) {
