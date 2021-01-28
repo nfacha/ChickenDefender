@@ -1,4 +1,4 @@
-config-version: 3 #DONT CHANGE THIS!
+config-version: 4 #DONT CHANGE THIS!
 auto-update: true #Do we want to always keep the plugin updated?
 update-channel: master #master = stable | dev = development versions
 lobby: #General Lobby location, this is where players are teleported after the game os over (/chickenset lobby)
@@ -9,6 +9,8 @@ lobby: #General Lobby location, this is where players are teleported after the g
 arenas: #Config for each arenas, to add a new arena just duplicate the default item and give it a different name
   myarena:
     clear-inventory: true #Clear player inventory on join? (item are returned on leave) - Kits are not available if disabled
+    team-helmet: false #Places a helmet on the player to help identify from what team he is - Only available if clear-inventory is enabled
+    player-glow: true #Should the player glow with the color of his team? (This might always be white when some scoreboard plugins are present)
     default-kit: demo #Default kit given on join
     countdown: 30 #How long is the countdown after we have enough players?
     chicken-health: 50 #How many half hearts does the chicken have?

@@ -109,6 +109,15 @@ public class Main extends JavaPlugin {
                 getConfig().save(Main.plugin.getDataFolder() + "/config.yml");
                 Main.logger.info("Config version updated to 3");
             }
+            if (getConfig().getInt("config-version") == 3) {
+                for (Arena arena : ArenaManager.getArenas()) {
+                    getConfig().set(arena.getConfigPath() + ".team-helmet", false);
+                    getConfig().set(arena.getConfigPath() + ".player-glow", true);
+                }
+                getConfig().set("config-version", 4);
+                getConfig().save(Main.plugin.getDataFolder() + "/config.yml");
+                Main.logger.info("Config version updated to 3");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

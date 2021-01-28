@@ -56,6 +56,8 @@ public class Arena {
     public HashMap<UUID, String> playerKits = new HashMap<>();
     private String defaultKit;
     private Boolean clearInventory;
+    private Boolean teamHelmet;
+    private Boolean playerGlow;
 
     public Arena(String arenaId) {
         this.arenaId = arenaId;
@@ -76,6 +78,8 @@ public class Arena {
         this.playerLives = Main.plugin.getConfig().getInt(this.configPath + ".player-lives");
         this.signEnabled = Main.plugin.getConfig().getBoolean(this.configPath + ".locations.sign.enabled");
         this.clearInventory = Main.plugin.getConfig().getBoolean(this.configPath + ".clear-inventory");
+        this.teamHelmet = Main.plugin.getConfig().getBoolean(this.configPath + ".team-helmet");
+        this.playerGlow = Main.plugin.getConfig().getBoolean(this.configPath + ".player-glow");
         this.world = Main.plugin.getServer().getWorld(Main.plugin.getConfig().getString(this.configPath + ".locations.world"));
         this.lobbySpawn = new Location(this.world,
                 Main.plugin.getConfig().getInt(this.configPath + ".locations.spawns.lobby.x"),
@@ -201,9 +205,11 @@ public class Arena {
                 finish();
             }
         }
-        Main.sbDefendTeam.removeEntry(p.getName());
-        Main.sbAttackTeam.removeEntry(p.getName());
-        p.removePotionEffect(PotionEffectType.GLOWING);
+        if (playerGlow) {
+            Main.sbDefendTeam.removeEntry(p.getName());
+            Main.sbAttackTeam.removeEntry(p.getName());
+            p.removePotionEffect(PotionEffectType.GLOWING);
+        }
         p.teleport(Main.arenaManager.getLobbyLocation());
         p.sendMessage("You left the arena");
         sendMessageToAll("§r§4[-] §r " + p.getName());
@@ -303,13 +309,17 @@ public class Arena {
         if (team.equals(Team.ATTACKING)) {
             attackingTeam.add(p.getUniqueId());
             p.sendMessage(ChatColor.RED + "You have joined the attacking team");
-            Main.sbAttackTeam.addEntry(p.getName());
-            p.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 1, true));
+            if (playerGlow) {
+                Main.sbAttackTeam.addEntry(p.getName());
+                p.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 1, true));
+            }
         } else {
             defendingTeam.add(p.getUniqueId());
             p.sendMessage(ChatColor.GREEN + "You have joined the defending team");
-            Main.sbDefendTeam.addEntry(p.getName());
-            p.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 1, true));
+            if (playerGlow) {
+                Main.sbDefendTeam.addEntry(p.getName());
+                p.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 1, true));
+            }
         }
     }
 
