@@ -6,6 +6,7 @@ import com.nunofacha.chickendefender.arenas.game.GameState;
 import com.nunofacha.chickendefender.arenas.game.Team;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
@@ -247,6 +248,13 @@ public class Arena {
             p.setScoreboard(Main.scoreboard);
             if (clearInventory) {
                 Main.kits.get(playerKits.get(p.getUniqueId())).giveKit(p);
+                if (teamHelmet) {
+                    if (attackingTeam.contains(p.getUniqueId())) {
+                        p.getInventory().setHelmet(new ItemStack(Material.RED_WOOL));
+                    } else {
+                        p.getInventory().setHelmet(new ItemStack(Material.GREEN_WOOL));
+                    }
+                }
             }
         }
         this.setState(GameState.LIVE);
@@ -394,5 +402,17 @@ public class Arena {
 
     public Boolean getClearInventory() {
         return clearInventory;
+    }
+
+    public ArrayList<UUID> getAttackingTeam() {
+        return attackingTeam;
+    }
+
+    public ArrayList<UUID> getDefendingTeam() {
+        return defendingTeam;
+    }
+
+    public Boolean getTeamHelmet() {
+        return teamHelmet;
     }
 }
