@@ -5,6 +5,7 @@ import com.nunofacha.chickendefender.arenas.Arena;
 import com.nunofacha.chickendefender.arenas.ArenaManager;
 import com.nunofacha.chickendefender.arenas.game.Team;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,7 +13,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class GlobalListener implements Listener {
 
@@ -45,6 +49,7 @@ public class GlobalListener implements Listener {
     public void onPlayerDeath(PlayerDeathEvent e) {
         Player p = e.getEntity();
         if (Main.arenaManager.isPlaying(p)) {
+            e.getDrops().removeIf(itemStack -> true);
             Main.plugin.getServer().getScheduler().runTaskLater(Main.plugin, new Runnable() {
                 @Override
                 public void run() {
@@ -77,6 +82,13 @@ public class GlobalListener implements Listener {
                     }
                     if (arena.getClearInventory()) {
                         Main.kits.get(arena.playerKits.get(p.getUniqueId())).giveKit(p);
+                        if (arena.getTeamHelmet()) {
+                            if (arena.getAttackingTeam().contains(p.getUniqueId())) {
+                                p.getInventory().setHelmet(new ItemStack(Material.RED_WOOL));
+                            } else {
+                                p.getInventory().setHelmet(new ItemStack(Material.GREEN_WOOL));
+                            }
+                        }
                     }
                 }
             }, 1);
@@ -95,6 +107,20 @@ public class GlobalListener implements Listener {
                     p.sendMessage(ChatColor.RED + "You are supposed to defend the chicken, not attack it");
                 }
 
+            }
+        }
+    }
+
+    @EventHandler
+    public void onHelmetChange(InventoryClickEvent e) {
+        //Slot 39 is the helmet slot
+        if (e.getSlotType() == InventoryType.SlotType.ARMOR && e.getSlot() == 39) {
+            Player p = (Player) e.getWhoClicked();
+            Arena arena = Main.arenaManager.getArena(p);
+            if (arena != null) {
+                if (arena.getTeamHelmet()) {
+                    e.setCancelled(true);
+                }
             }
         }
     }
