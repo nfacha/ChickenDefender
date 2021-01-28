@@ -79,6 +79,7 @@ public class GlobalListener implements Listener {
                     } else {
                         p.teleport(arena.getAttackingSpawn());
                     }
+                    e.getDrops().removeIf(itemStack -> true);
                     if (arena.getClearInventory()) {
                         Main.kits.get(arena.playerKits.get(p.getUniqueId())).giveKit(p);
                         if (arena.getTeamHelmet()) {
