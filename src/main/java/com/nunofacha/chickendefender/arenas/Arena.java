@@ -59,6 +59,7 @@ public class Arena {
     private Boolean clearInventory;
     private Boolean teamHelmet;
     private Boolean playerGlow;
+    private Boolean enabled;
 
     public Arena(String arenaId) {
         this.arenaId = arenaId;
@@ -70,6 +71,11 @@ public class Arena {
 
     public void loadConfig() {
         //Load config
+        this.enabled = Main.plugin.getConfig().getBoolean(this.configPath + ".enabled");
+        if (!this.enabled) {
+            Main.logger.info("Arena " + getArenaId() + " is disabled, canceling arena load");
+            return;
+        }
         this.defaultKit = Main.plugin.getConfig().getString(this.configPath + ".default-kit");
         this.teamSelection = Main.plugin.getConfig().getBoolean(this.configPath + ".team-selection");
         this.minPlayers = Main.plugin.getConfig().getInt(this.configPath + ".players.min");
@@ -102,11 +108,15 @@ public class Arena {
                 Main.plugin.getConfig().getInt(this.configPath + ".locations.corner1.x"),
                 Main.plugin.getConfig().getInt(this.configPath + ".locations.corner1.y"),
                 Main.plugin.getConfig().getInt(this.configPath + ".locations.corner1.z"));
-        this.signLocation = new Location(
-                Main.plugin.getServer().getWorld(Main.plugin.getConfig().getString(this.configPath + ".locations.sign.world")),
-                Main.plugin.getConfig().getInt(this.configPath + ".locations.sign.x"),
-                Main.plugin.getConfig().getInt(this.configPath + ".locations.sign.y"),
-                Main.plugin.getConfig().getInt(this.configPath + ".locations.sign.z"));
+        if (Main.plugin.getConfig().getString(this.configPath + ".locations.sign.world") == null) {
+            this.signLocation = null;
+        } else {
+            this.signLocation = new Location(
+                    Main.plugin.getServer().getWorld(Main.plugin.getConfig().getString(this.configPath + ".locations.sign.world")),
+                    Main.plugin.getConfig().getInt(this.configPath + ".locations.sign.x"),
+                    Main.plugin.getConfig().getInt(this.configPath + ".locations.sign.y"),
+                    Main.plugin.getConfig().getInt(this.configPath + ".locations.sign.z"));
+        }
 
         int xPos1 = Math.min(Main.plugin.getConfig().getInt(this.configPath + ".locations.corner1.x"),
                 Main.plugin.getConfig().getInt(this.configPath + ".locations.corner2.x"));
@@ -414,5 +424,9 @@ public class Arena {
 
     public Boolean getTeamHelmet() {
         return teamHelmet;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
     }
 }
