@@ -15,6 +15,7 @@ arenas: #Config for each arenas, to add a new arena just duplicate the default i
     countdown: 30 #How long is the countdown after we have enough players?
     chicken-health: 50 #How many half hearts does the chicken have?
     player-lives: 3 #How many times do the players respawn before they are eliminated?
+    enabled: true #Enables or disables loading an arena
     players:
       min: 2 #Min players to trigger an arena start
       max: 10 #Max players allowed for this arena

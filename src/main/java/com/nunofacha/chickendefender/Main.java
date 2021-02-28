@@ -116,7 +116,15 @@ public class Main extends JavaPlugin {
                 }
                 getConfig().set("config-version", 4);
                 getConfig().save(Main.plugin.getDataFolder() + "/config.yml");
-                Main.logger.info("Config version updated to 3");
+                Main.logger.info("Config version updated to 4");
+            }
+            if (getConfig().getInt("config-version") == 4) {
+                for (Arena arena : ArenaManager.getArenas()) {
+                    getConfig().set(arena.getConfigPath() + ".enabled", true);
+                }
+                getConfig().set("config-version", 5);
+                getConfig().save(Main.plugin.getDataFolder() + "/config.yml");
+                Main.logger.info("Config version updated to 5");
             }
         } catch (IOException e) {
             e.printStackTrace();

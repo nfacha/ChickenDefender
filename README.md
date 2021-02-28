@@ -27,20 +27,24 @@ config item does:
 
 **/chickenset lobby** - Sets the global lobby
 
-**/chickenset _[arena]_ lobby** - Sets the arena lobby
+**/chickenset arena _[arena]_ lobby** - Sets the arena lobby
 
-**/chickenset _[arena]_ attacking** - Sets the arena attacking spawn
+**/chickenset arena _[arena]_ attacking** - Sets the arena attacking spawn
 
-**/chickenset _[arena]_ defending** - Sets the arena defending spawn
+**/chickenset arena _[arena]_ defending** - Sets the arena defending spawn
 
-**/chickenset _[arena]_ chicken** - Sets the arena chicken spawn
+**/chickenset arena _[arena]_ chicken** - Sets the arena chicken spawn
 
-**/chickenset _[arena]_ corner1** - Top right corner of the arena region
+**/chickenset arena _[arena]_ corner1** - Top right corner of the arena region
 
-**/chickenset _[arena]_ corner2** - Bottom left corner of the arena region
+**/chickenset arena _[arena]_ corner2** - Bottom left corner of the arena region
 
-**/chickenset _[arena]_ sign** - Sets the arena join sign to the sign you are looking at (**MUST** be a WALL_SIGN, a
-sign placed against a block, not a sign on the floor)
+**/chickenset arena _[arena]_ sign** - Sets the arena join sign to the sign you are looking at (**MUST** be a WALL_SIGN,
+a sign placed against a block, not a sign on the floor)
+
+**/chickenset arena _[arena]_ enable** - Enables the arena
+
+**/chickenset arena _[arena]_ disable** - Disables the arena
 
 ## Permissions
 
