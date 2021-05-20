@@ -126,6 +126,14 @@ public class Main extends JavaPlugin {
                 getConfig().save(Main.plugin.getDataFolder() + "/config.yml");
                 Main.logger.info("Config version updated to 5");
             }
+            if (getConfig().getInt("config-version") == 5) {
+                for (Arena arena : ArenaManager.getArenas()) {
+                    getConfig().set(arena.getConfigPath() + ".friendly-fire", false);
+                }
+                getConfig().set("config-version", 6);
+                getConfig().save(Main.plugin.getDataFolder() + "/config.yml");
+                Main.logger.info("Config version updated to 6");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

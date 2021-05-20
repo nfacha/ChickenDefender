@@ -124,4 +124,18 @@ public class GlobalListener implements Listener {
             }
         }
     }
+
+    @EventHandler
+    public void onPlayerDamage(EntityDamageByEntityEvent e) {
+        if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
+            Player p = (Player) e.getEntity();
+            Player attacker = (Player) e.getDamager();
+            if (Main.arenaManager.isPlaying(p) && Main.arenaManager.isPlaying(attacker)) {
+                Arena arena = Main.arenaManager.getArena(p);
+                if (!arena.getFriendlyFire()) {
+                    e.setCancelled(true);
+                }
+            }
+        }
+    }
 }
