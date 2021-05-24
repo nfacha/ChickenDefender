@@ -1,8 +1,8 @@
 {
   "name": "ChickenDefender",
   "active_development": true,
-  "current_version": "1.3",
-  "last_update": "2021-02-28",
+  "current_version": "1.4",
+  "last_update": "2021-05-24",
   "update_location": "https://raw.githubusercontent.com/nfacha/ChickenDefender/dev/meta.json",
-  "download_location": "https://github.com/nfacha/ChickenDefender/releases/download/1.3/ChickenDefender.jar"
+  "download_location": "https://github.com/nfacha/ChickenDefender/releases/download/1.4/ChickenDefender.jar"
 }
