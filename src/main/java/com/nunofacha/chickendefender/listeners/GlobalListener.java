@@ -133,7 +133,11 @@ public class GlobalListener implements Listener {
             if (Main.arenaManager.isPlaying(p) && Main.arenaManager.isPlaying(attacker)) {
                 Arena arena = Main.arenaManager.getArena(p);
                 if (!arena.getFriendlyFire()) {
-                    e.setCancelled(true);
+                    Team attackerTeam = arena.getTeam(attacker);
+                    Team pTeam = arena.getTeam(p);
+                    if(attackerTeam == null || pTeam==null || attackerTeam.equals(pTeam)){
+                        e.setCancelled(true);
+                    }
                 }
             }
         }
