@@ -59,6 +59,7 @@ public class Arena {
     private Boolean clearInventory;
     private Boolean teamHelmet;
     private Boolean playerGlow;
+    private Boolean friendlyFire;
     private Boolean enabled;
 
     public Arena(String arenaId) {
@@ -87,6 +88,7 @@ public class Arena {
         this.clearInventory = Main.plugin.getConfig().getBoolean(this.configPath + ".clear-inventory");
         this.teamHelmet = Main.plugin.getConfig().getBoolean(this.configPath + ".team-helmet");
         this.playerGlow = Main.plugin.getConfig().getBoolean(this.configPath + ".player-glow");
+        this.friendlyFire = Main.plugin.getConfig().getBoolean(this.configPath + ".friendly-fire");
         this.world = Main.plugin.getServer().getWorld(Main.plugin.getConfig().getString(this.configPath + ".locations.world"));
         this.lobbySpawn = new Location(this.world,
                 Main.plugin.getConfig().getInt(this.configPath + ".locations.spawns.lobby.x"),
@@ -428,5 +430,13 @@ public class Arena {
 
     public Boolean getEnabled() {
         return enabled;
+    }
+
+    public Boolean getFriendlyFire() {
+        return friendlyFire;
+    }
+
+    public void setFriendlyFire(Boolean friendlyFire) {
+        this.friendlyFire = friendlyFire;
     }
 }
